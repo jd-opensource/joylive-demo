@@ -39,10 +39,10 @@ public class CpuBusyUtil {
         long durationNanos = durationMillis * 1_000_000;
 
         double result = 0;
+        long i = 0;
         while (System.nanoTime() - startTime < durationNanos) {
-            for (int i = 0; i < 1000; i++) {
-                result += Math.log(i + 1) * Math.sqrt(i);
-            }
+            result += Math.log(i + 1) * Math.sqrt(i);
+            i++;
         }
         return result;
     }
