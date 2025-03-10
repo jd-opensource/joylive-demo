@@ -28,6 +28,9 @@
         <module>joylive-demo-springcloud2021-consumer</module>
         <module>joylive-demo-springcloud2021-gateway</module>
         <module>joylive-demo-springcloud2021-order</module>
+        <module>joylive-demo-springboot2021-provider</module>
+        <module>joylive-demo-springboot2021-provider-reactive</module>
+        <module>joylive-demo-springboot2021-consumer</module>
     </modules>
 
     <dependencyManagement>
