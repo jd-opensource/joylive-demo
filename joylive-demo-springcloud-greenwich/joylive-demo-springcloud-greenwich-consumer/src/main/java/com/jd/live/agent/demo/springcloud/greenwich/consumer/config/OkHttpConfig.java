@@ -13,16 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jd.live.agent.demo.springboot.v2021.provider;
+package com.jd.live.agent.demo.springcloud.greenwich.consumer.config;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-@SpringBootApplication
-public class SpringBoot2021ProviderReactive {
+@Component
+@ConfigurationProperties(prefix = "okhttp")
+@Getter
+@Setter
+public class OkHttpConfig {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBoot2021ProviderReactive.class, args);
-    }
+    private int readTimeout = 600;
 
+    private int connectTimeout = 600;
+
+    private int writeTimeout = 1200;
 }

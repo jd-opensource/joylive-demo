@@ -13,16 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jd.live.agent.demo.springboot.v2021.provider;
+package com.jd.live.agent.demo.springcloud.greenwich.consumer;
 
+import com.alibaba.nacos.client.config.utils.SnapShotSwitch;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-public class SpringBoot2021ProviderReactive {
+@EnableDiscoveryClient
+@EnableFeignClients
+public class SpringCloudGreenwichConsumer {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBoot2021ProviderReactive.class, args);
+        SnapShotSwitch.setIsSnapShot(false);
+        SpringApplication.run(SpringCloudGreenwichConsumer.class, args);
     }
 
 }

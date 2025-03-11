@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jd.live.agent.demo.springboot.v2021.provider;
+package com.jd.live.agent.demo.springcloud.greenwich.gateway;
 
+import com.alibaba.nacos.client.config.utils.SnapShotSwitch;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBoot2021ProviderReactive {
+public class SpringCloudGreenwichGateway {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBoot2021ProviderReactive.class, args);
+        SnapShotSwitch.setIsSnapShot(false);
+        SpringApplication.run(SpringCloudGreenwichGateway.class, args);
     }
-
 }

@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jd.live.agent.demo.springboot.v2021.provider;
+package com.jd.live.agent.demo.springcloud.greenwich.consumer.service;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.jd.live.agent.demo.response.LiveResponse;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-@SpringBootApplication
-public class SpringBoot2021ProviderReactive {
+@FeignClient(name = "service-provider")
+public interface FeignService {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SpringBoot2021ProviderReactive.class, args);
-    }
+    @GetMapping("/echo/{str}")
+    LiveResponse echo(@PathVariable("str") String str);
 
+    @GetMapping("/status/{code}")
+    LiveResponse status(@PathVariable("code") int code);
 }
