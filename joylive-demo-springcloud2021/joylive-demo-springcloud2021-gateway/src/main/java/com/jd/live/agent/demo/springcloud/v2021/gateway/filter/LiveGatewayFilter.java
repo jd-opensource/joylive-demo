@@ -28,8 +28,9 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
-import org.springframework.core.io.buffer.DefaultDataBufferFactory;
+import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
@@ -82,11 +83,13 @@ public class LiveGatewayFilter implements GlobalFilter, Ordered {
                 LiveTransmission.build("header", headers::getFirst)));
     }
 
+    /**
+     * Decorates ServerHttpResponse to add live tracing functionality
+     */
     private class LiveTraceDecorator extends ServerHttpResponseDecorator {
         private final ServerHttpRequest request;
 
-        LiveTraceDecorator(ServerHttpResponse response,
-                           ServerHttpRequest request) {
+        LiveTraceDecorator(ServerHttpResponse response, ServerHttpRequest request) {
             super(response);
             this.request = request;
         }
@@ -95,24 +98,59 @@ public class LiveGatewayFilter implements GlobalFilter, Ordered {
         public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
             if (body instanceof Flux) {
                 Flux<? extends DataBuffer> fluxBody = Flux.from(body);
-                ServerHttpResponse delegate = getDelegate();
-                HttpHeaders headers = request.getHeaders();
                 return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
-                    DataBufferFactory dataBufferFactory = new DefaultDataBufferFactory();
-                    DataBuffer join = dataBufferFactory.join(dataBuffers);
-                    byte[] array = join.asByteBuffer().array();
-                    try {
-                        LiveResponse liveResponse = objectMapper.readValue(array, LiveResponse.class);
-                        addTrace(liveResponse, headers);
-                        byte[] data = objectMapper.writeValueAsBytes(liveResponse);
-                        delegate.getHeaders().setContentLength(data.length);
-                        return delegate.bufferFactory().wrap(data);
-                    } catch (Throwable ignore) {
-                        return delegate.bufferFactory().wrap(array);
-                    }
+                    DataBufferFactory factory = bufferFactory();
+                    DataBuffer join = factory.join(dataBuffers);
+                    byte[] array = new byte[join.readableByteCount()];
+                    join.read(array);
+                    // must release the buffer
+                    DataBufferUtils.release(join);
+                    array = append(array);
+                    return factory.wrap(array);
                 }));
             }
             return super.writeWith(body);
+        }
+
+        /**
+         * Appends trace data to response array
+         *
+         * @param array Original response array
+         * @return Updated response array with trace data
+         */
+        private byte[] append(byte[] array) {
+            HttpHeaders headers = request.getHeaders();
+            HttpStatus status = getStatusCode();
+            LiveResponse liveResponse = read(status, array);
+            try {
+                addTrace(liveResponse, headers);
+                array = objectMapper.writeValueAsBytes(liveResponse);
+                getHeaders().setContentLength(array.length);
+            } catch (Throwable ignore) {
+            }
+            return array;
+        }
+
+        /**
+         * Reads and constructs LiveResponse from status and array
+         *
+         * @param status HTTP status
+         * @param array  Response array
+         * @return Constructed LiveResponse
+         */
+        private LiveResponse read(HttpStatus status, byte[] array) {
+            if (status == HttpStatus.OK) {
+                try {
+                    return array.length > 0
+                            ? objectMapper.readValue(array, LiveResponse.class)
+                            : new LiveResponse(LiveResponse.SUCCESS, HttpStatus.OK.getReasonPhrase());
+                } catch (Throwable e) {
+                    return new LiveResponse(LiveResponse.ERROR, e.getMessage());
+                }
+            } else {
+                status = status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status;
+                return new LiveResponse(status.value(), array.length > 0 ? new String(array) : status.getReasonPhrase());
+            }
         }
     }
 }

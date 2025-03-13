@@ -80,7 +80,8 @@ spring:
         username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}
         password: ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
         namespace: ${NACOS_NAMESPACE:public}
-
+      username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}
+      password:  ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
 logging:
   level:
     org:
