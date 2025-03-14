@@ -204,7 +204,7 @@
                         <source>${maven.compiler.source}</source>
                         <target>${maven.compiler.target}</target>
                         <encoding>${project.build.sourceEncoding}</encoding>
-                        <parameters>true</parameters>
+                        <compilerArgument>-parameters</compilerArgument>
                     </configuration>
                 </plugin>
                 <plugin>
