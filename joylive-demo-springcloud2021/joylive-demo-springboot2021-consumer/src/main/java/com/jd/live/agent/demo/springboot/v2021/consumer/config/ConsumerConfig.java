@@ -15,6 +15,9 @@
  */
 package com.jd.live.agent.demo.springboot.v2021.consumer.config;
 
+import com.jd.live.agent.demo.springboot.v2021.consumer.service.FeignService;
+import feign.Feign;
+import feign.jackson.JacksonDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -31,5 +34,13 @@ public class ConsumerConfig {
     @Bean
     public WebClient.Builder loadBalancedWebClientBuilder() {
         return WebClient.builder();
+    }
+
+    @Bean
+    public FeignService feignService() {
+        return Feign.builder()
+                .decoder(new JacksonDecoder())
+                .target(FeignService.class, "http://service-provider");
+
     }
 }

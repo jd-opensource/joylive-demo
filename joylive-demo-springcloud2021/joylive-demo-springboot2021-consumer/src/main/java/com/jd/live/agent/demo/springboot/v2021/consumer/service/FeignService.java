@@ -16,18 +16,18 @@
 package com.jd.live.agent.demo.springboot.v2021.consumer.service;
 
 import com.jd.live.agent.demo.response.LiveResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import feign.Param;
+import feign.RequestLine;
 
 public interface FeignService {
 
-    @GetMapping("/echo/{str}")
-    LiveResponse echo(@PathVariable("str") String str);
+    @RequestLine("GET /echo/{str}")
+    LiveResponse echo(@Param("str") String str);
 
-    @GetMapping("/status/{code}")
-    LiveResponse status(@PathVariable("code") int code);
+    @RequestLine("GET /status/{code}")
+    LiveResponse status(@Param("code") int code);
 
-    @GetMapping("/state/{code}/sleep/{time}")
-    String state(@PathVariable("code") int code, @PathVariable("time") int time);
+    @RequestLine("GET /state/{code}/sleep/{time}")
+    String state(@Param("code") int code, @Param("time") int time);
 
 }

@@ -43,6 +43,7 @@ public class EchoController {
     @Resource
     private RestService restService;
 
+    @Resource
     private FeignService feignService;
 
     @Resource
