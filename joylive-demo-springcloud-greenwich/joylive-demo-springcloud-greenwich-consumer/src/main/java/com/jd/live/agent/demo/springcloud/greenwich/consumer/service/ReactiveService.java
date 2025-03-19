@@ -23,15 +23,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Service
 public class ReactiveService implements HelloService {
 
-    private final WebClient webClient;
+    private final WebClient.Builder builder;
 
     public ReactiveService(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://service-provider-reactive").build();
+        // the builder is not initialized successfully, so we cannot create webclient here.
+        this.builder = builder.baseUrl("http://service-provider-reactive");
     }
 
     @Override
     public LiveResponse echo(String str) {
-        return webClient.get()
+        return builder.build().get()
                 .uri("/echo/" + str)
                 .retrieve()
                 .bodyToMono(LiveResponse.class).block();
@@ -39,7 +40,7 @@ public class ReactiveService implements HelloService {
 
     @Override
     public LiveResponse status(int code) {
-        return webClient.get()
+        return builder.build().get()
                 .uri("/status/" + code)
                 .retrieve()
                 .bodyToMono(LiveResponse.class).block();
