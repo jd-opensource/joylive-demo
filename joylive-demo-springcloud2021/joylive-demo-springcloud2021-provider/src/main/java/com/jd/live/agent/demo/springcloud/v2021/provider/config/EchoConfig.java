@@ -26,6 +26,8 @@ public class EchoConfig {
 
     private int randomTime = 1000;
 
+    private String suffix;
+
     public int getSleepTime() {
         return sleepTime;
     }
@@ -40,5 +42,13 @@ public class EchoConfig {
 
     public void setRandomTime(int randomTime) {
         this.randomTime = randomTime;
+    }
+
+    public String getSuffix() {
+        return suffix;
+    }
+
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
     }
 }

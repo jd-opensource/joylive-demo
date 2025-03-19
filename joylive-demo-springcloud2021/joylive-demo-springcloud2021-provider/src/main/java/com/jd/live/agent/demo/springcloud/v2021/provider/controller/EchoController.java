@@ -59,9 +59,10 @@ public class EchoController {
             }
             CpuBusyUtil.busyCompute(sleepTime);
         }
-        String value = str + "-sleepTime-" + sleepTime;
-        if (echoSuffix != null && !echoSuffix.isEmpty()) {
-            value = value + "-" + echoSuffix;
+        String value = str + "-sleepTime-" + config.getSleepTime() + "-cpuPercent-" + cpuPercent;
+        String suffix = config.getSuffix();
+        if (suffix != null && !suffix.isEmpty()) {
+            value = value + "-" + suffix;
         }
         LiveResponse response = new LiveResponse(value);
         configure(request, response);
