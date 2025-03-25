@@ -4,7 +4,7 @@ USER root
 ENV TZ Asia/Shanghai
 
 WORKDIR /export/servers/
-COPY ./target/joylive-demo-springcloud2021-provider.jar /export/servers/
+COPY ./target/joylive-demo-springboot2021-provider.jar /export/servers/
 
 VOLUME ["/export/servers/logs", "/export/servers/config"]
 EXPOSE 18081
