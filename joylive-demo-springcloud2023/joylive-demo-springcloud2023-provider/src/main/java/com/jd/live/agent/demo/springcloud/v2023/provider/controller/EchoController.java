@@ -62,7 +62,7 @@ public class EchoController {
         }
         LiveResponse response = new LiveResponse(echoSuffix == null ? str : str + echoSuffix);
         configure(request, response);
-        if (logger.isInfoEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.info("echo str: {}, time: {}", str, System.currentTimeMillis());
         }
         return response;
@@ -83,7 +83,7 @@ public class EchoController {
 
     @RequestMapping(value = "/state/{code}/sleep/{time}", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
     public String state(@PathVariable int code, @PathVariable int time, HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
-        if (logger.isInfoEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.info("state code: {}, sleep time: {}, date: {}", code, time, System.currentTimeMillis());
         }
         if (code <= 0) {

@@ -65,7 +65,7 @@ public class EchoController {
         }
         LiveResponse response = new LiveResponse(value);
         configure(request, response);
-        if (logger.isInfoEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.info("echo str: {}, time: {}", str, System.currentTimeMillis());
         }
         return response;
@@ -76,7 +76,7 @@ public class EchoController {
         response.setStatus(code);
         LiveResponse lr = new LiveResponse(code, null, code);
         configure(request, lr);
-        if (logger.isInfoEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.info("status code: {}, time: {}", code, System.currentTimeMillis());
         }
         return lr;
@@ -94,7 +94,7 @@ public class EchoController {
 
     @RequestMapping(value = "/exception", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
     public LiveResponse exception(HttpServletRequest request, HttpServletResponse response) {
-        if (logger.isInfoEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.info("exception at time: {}", System.currentTimeMillis());
         }
         throw new RuntimeException("RuntimeException happened!");
@@ -102,7 +102,7 @@ public class EchoController {
 
     @RequestMapping(value = "/state/{code}/sleep/{time}", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
     public String state(@PathVariable int code, @PathVariable int time, HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
-        if (logger.isInfoEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.info("state code: {}, sleep time: {}, date: {}", code, time, System.currentTimeMillis());
         }
         if (code <= 0) {
