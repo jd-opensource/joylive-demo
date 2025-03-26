@@ -8,6 +8,30 @@ clean:
 build:
 	mvn package -f ../pom.xml -DskipTests=true package
 
+image-joylive-demo-springboot2021-consumer:
+	docker build --platform linux/amd64 -t ${repo}/joylive-demo-springboot2021-consumer:${version}-amd64 ./joylive-demo-springcloud2021/joylive-demo-springboot2021-consumer
+	docker build --platform linux/arm64 -t ${repo}/joylive-demo-springboot2021-consumer:${version}-arm64 ./joylive-demo-springcloud2021/joylive-demo-springboot2021-consumer
+
+push-joylive-demo-springboot2021-consumer:
+	docker push ${repo}/joylive-demo-springboot2021-consumer:${version}-amd64
+	docker push ${repo}/joylive-demo-springboot2021-consumer:${version}-arm64
+	docker manifest create ${repo}/joylive-demo-springboot2021-consumer:${version} \
+	  ${repo}/joylive-demo-springboot2021-consumer:${version}-amd64 \
+	  ${repo}/joylive-demo-springboot2021-consumer:${version}-arm64
+	docker manifest push ${repo}/joylive-demo-springboot2021-consumer:${version}
+
+image-joylive-demo-springboot2021-provider:
+	docker build --platform linux/amd64 -t ${repo}/joylive-demo-springboot2021-provider:${version}-amd64 ./joylive-demo-springcloud2021/joylive-demo-springboot2021-provider
+	docker build --platform linux/arm64 -t ${repo}/joylive-demo-springboot2021-provider:${version}-arm64 ./joylive-demo-springcloud2021/joylive-demo-springboot2021-provider
+
+push-joylive-demo-springboot2021-provider:
+	docker push ${repo}/joylive-demo-springboot2021-provider:${version}-amd64
+	docker push ${repo}/joylive-demo-springboot2021-provider:${version}-arm64
+	docker manifest create ${repo}/joylive-demo-springboot2021-provider:${version} \
+	  ${repo}/joylive-demo-springboot2021-provider:${version}-amd64 \
+	  ${repo}/joylive-demo-springboot2021-provider:${version}-arm64
+	docker manifest push ${repo}/joylive-demo-springboot2021-provider:${version}
+
 image-joylive-demo-springcloud2021-consumer:
 	docker build --platform linux/amd64 -t ${repo}/joylive-demo-springcloud2021-consumer:${version}-amd64 ./joylive-demo-springcloud2021/joylive-demo-springcloud2021-consumer
 	docker build --platform linux/arm64 -t ${repo}/joylive-demo-springcloud2021-consumer:${version}-arm64 ./joylive-demo-springcloud2021/joylive-demo-springcloud2021-consumer
