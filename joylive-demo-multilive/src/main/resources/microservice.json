@@ -2,7 +2,7 @@
   {
     "name": "service-consumer",
     "serviceType": "HTTP",
-    "version": 0,
+    "version": 1,
     "groups": [
       {
         "name": "default",
@@ -81,7 +81,7 @@
   {
     "name": "service-provider",
     "serviceType": "HTTP",
-    "version": 0,
+    "version": 1,
     "groups": [
       {
         "name": "default",
@@ -449,7 +449,7 @@
   {
     "name": "service-provider-reactive",
     "serviceType": "HTTP",
-    "version": 0,
+    "version": 1,
     "groups": [
       {
         "name": "default",
@@ -516,7 +516,7 @@
   {
     "name": "dubbo3-provider",
     "serviceType": "RPC_APP",
-    "version": 0,
+    "version": 1,
     "groups": [
       {
         "name": "default",
@@ -590,7 +590,7 @@
   {
     "name": "dubbo2.7-provider",
     "serviceType": "RPC_APP",
-    "version": 0,
+    "version": 1,
     "groups": [
       {
         "name": "default",
@@ -652,7 +652,7 @@
   {
     "name": "com.jd.live.agent.demo.service.HelloService",
     "serviceType": "RPC_INTERFACE",
-    "version": 0,
+    "version": 1,
     "groups": [
       {
         "name": "default",
@@ -714,7 +714,7 @@
   {
     "name": "grpc-consumer",
     "serviceType": "RPC_APP",
-    "version": 0,
+    "version": 1,
     "groups": [
       {
         "name": "default",
@@ -762,7 +762,7 @@
   {
     "name": "grpc-provider",
     "serviceType": "RPC_APP",
-    "version": 0,
+    "version": 1,
     "groups": [
       {
         "name": "default",
