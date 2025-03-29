@@ -27,6 +27,7 @@
         <module>joylive-demo-springcloud2024-consumer-http3</module>
         <module>joylive-demo-springcloud2024-gateway</module>
         <module>joylive-demo-springcloud2024-gateway-tomcat</module>
+        <module>joylive-demo-springcloud2024-gateway-http3</module>
     </modules>
 
     <dependencyManagement>
