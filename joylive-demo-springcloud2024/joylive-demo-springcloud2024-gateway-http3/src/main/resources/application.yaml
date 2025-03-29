@@ -10,7 +10,7 @@ management:
         include: "gateway"
 spring:
   application:
-    name: spring-gateway
+    name: spring-gateway-http3
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
     default-property-inclusion: non_null
