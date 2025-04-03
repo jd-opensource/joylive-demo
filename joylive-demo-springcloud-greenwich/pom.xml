@@ -24,6 +24,7 @@
         <module>joylive-demo-springcloud-greenwich-consumer</module>
         <module>joylive-demo-springcloud-greenwich-provider</module>
         <module>joylive-demo-springcloud-greenwich-gateway</module>
+        <module>joylive-demo-springcloud-greenwich-gateway-zuul</module>
         <module>joylive-demo-springcloud-greenwich-provider-reactive</module>
     </modules>
 
