@@ -16,7 +16,6 @@
 package com.jd.live.agent.demo.springcloud.greenwich.gateway.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jd.live.agent.core.util.http.HttpStatus;
 import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
@@ -62,7 +61,7 @@ public class ZuulPostFilter extends ZuulFilter {
     }
 
     @Override
-    public Object run() throws ZuulException {
+    public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         try (InputStream responseStream = ctx.getResponseDataStream()) {
             String responseBody = StreamUtils.copyToString(responseStream, StandardCharsets.UTF_8);

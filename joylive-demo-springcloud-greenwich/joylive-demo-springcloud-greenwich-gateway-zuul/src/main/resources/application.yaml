@@ -1,13 +1,5 @@
 server:
   port: ${SERVER_PORT:8888}
-management:
-  endpoint:
-    gateway:
-      enabled: true
-  endpoints:
-    web:
-      exposure:
-        include: "gateway"
 spring:
   application:
     name: spring-gateway
@@ -23,16 +15,22 @@ spring:
         username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}
         password: ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
         namespace: ${NACOS_NAMESPACE:public}
+    loadbalancer:
+      ribbon:
+        enabled: true
 zuul:
   routes:
     service-consumer:
       path: /service-consumer/**
+      service-id: service-consumer
       strip-prefix: true
     service-provider:
       path: /service-provider/**
+      service-id: service-provider
       strip-prefix: true
     service-provider-reactive:
       path: /service-provider-reactive/**
+      service-id: service-provider-reactive
       strip-prefix: true
     http:
       url: http://demo.live.local:11813/

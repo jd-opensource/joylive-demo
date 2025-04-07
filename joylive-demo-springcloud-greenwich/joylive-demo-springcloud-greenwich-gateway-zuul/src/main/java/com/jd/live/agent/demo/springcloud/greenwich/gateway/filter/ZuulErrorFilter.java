@@ -48,12 +48,12 @@ public class ZuulErrorFilter extends ZuulFilter {
 
     @Override
     public int filterOrder() {
-        return -1;
+        return 0;
     }
 
     @Override
     public boolean shouldFilter() {
-        return true;
+        return RequestContext.getCurrentContext().getThrowable() != null;
     }
 
     @Override
@@ -65,8 +65,10 @@ public class ZuulErrorFilter extends ZuulFilter {
                 LiveResponse liveResponse = new LiveResponse(LiveResponse.ERROR, throwable.getMessage());
                 addTrace(liveResponse, ctx.getResponse());
                 String responseBody = objectMapper.writeValueAsString(liveResponse);
+                ctx.remove("throwable");
+                ctx.setResponseStatusCode(200);
                 ctx.setResponseBody(responseBody);
-                ctx.setThrowable(null);
+                ctx.sendZuulResponse();
             } catch (IOException ignored) {
             }
         }
