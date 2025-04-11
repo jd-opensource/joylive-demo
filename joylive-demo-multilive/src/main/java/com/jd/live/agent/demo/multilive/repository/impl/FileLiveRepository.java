@@ -55,7 +55,7 @@ public class FileLiveRepository implements LiveRepository {
         CountDownLatch latch = new CountDownLatch(1);
         Thread thread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
-                serviceMap = loadServices().stream().collect(Collectors.toMap(Service::getName, s -> s));
+                serviceMap = loadServices().stream().collect(Collectors.toMap(s -> s.getName().toLowerCase(), s -> s));
                 liveSpaces = loadSpaces();
                 liveSpaceMap = liveSpaces.stream().collect(Collectors.toMap(LiveSpace::getId, s -> s));
                 try {
@@ -102,7 +102,7 @@ public class FileLiveRepository implements LiveRepository {
 
     @Override
     public Service getService(String name) {
-        return serviceMap == null ? null : serviceMap.get(name);
+        return serviceMap == null || name == null ? null : serviceMap.get(name.toLowerCase());
     }
 
     @Override
