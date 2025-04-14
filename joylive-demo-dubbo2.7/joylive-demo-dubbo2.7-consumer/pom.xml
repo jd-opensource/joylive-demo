@@ -38,4 +38,18 @@
 
     </dependencies>
 
+    <build>
+        <directory>${basedir}/target</directory>
+        <finalName>joylive-demo-dubbo2.7-consumer</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.jd.live.agent.demo.dubbo.v2_7.consumer.Dubbo27Consumer</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

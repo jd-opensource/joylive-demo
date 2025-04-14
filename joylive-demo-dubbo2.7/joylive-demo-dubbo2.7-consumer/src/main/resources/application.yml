@@ -24,7 +24,7 @@ spring:
       indent_output: true
 
 live:
-  live-space-id: v4bEh4kd6Jvu5QBX09qYq-qlbcs
+  live-space-id: ${APPLICATION_LOCATION_LIVESPACE_ID}
   rule-id: 1003
   uid: unit1
   lane-space-id:
@@ -40,10 +40,10 @@ dubbo:
   registry:
     id: nacos-registry
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
-    group: "live-demo"
+    group: ${APPLICATION_SERVICE_GROUP:live-demo}
     parameters:
       namespace: ${NACOS_NAMESPACE:public}
-      registry-type: service
+      registry-type: ${DUBBO_REGISTRY_TYPE}
   config-center:
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
   metadata-report:

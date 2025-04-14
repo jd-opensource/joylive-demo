@@ -21,7 +21,20 @@
             <artifactId>joylive-demo-api</artifactId>
             <version>${revision}</version>
         </dependency>
-
     </dependencies>
+
+    <build>
+        <directory>${basedir}/target</directory>
+        <finalName>joylive-demo-dubbo2.7-provider</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.jd.live.agent.demo.dubbo.v2_7.provider.Dubbo27Provider</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

@@ -175,3 +175,27 @@ push-joylive-demo-grpc-provider:
 	  ${repo}/joylive-demo-grpc-provider:${version}-amd64 \
 	  ${repo}/joylive-demo-grpc-provider:${version}-arm64
 	docker manifest push ${repo}/joylive-demo-grpc-provider:${version}
+
+image-joylive-demo-dubbo2.7-consumer:
+	docker build --platform linux/amd64 -t ${repo}/joylive-demo-dubbo2.7-consumer:${version}-amd64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-consumer
+	docker build --platform linux/arm64 -t ${repo}/joylive-demo-dubbo2.7-consumer:${version}-arm64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-consumer
+
+push-joylive-demo-dubbo2.7-consumer:
+	docker push ${repo}/joylive-demo-dubbo2.7-consumer:${version}-amd64
+	docker push ${repo}/joylive-demo-dubbo2.7-consumer:${version}-arm64
+	docker manifest create ${repo}/joylive-demo-dubbo2.7-consumer:${version} \
+	  ${repo}/joylive-demo-dubbo2.7-consumer:${version}-amd64 \
+	  ${repo}/joylive-demo-dubbo2.7-consumer:${version}-arm64
+	docker manifest push ${repo}/joylive-demo-dubbo2.7-consumer:${version}
+
+image-joylive-demo-dubbo2.7-provider:
+	docker build --platform linux/amd64 -t ${repo}/joylive-demo-dubbo2.7-provider:${version}-amd64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-provider
+	docker build --platform linux/arm64 -t ${repo}/joylive-demo-dubbo2.7-provider:${version}-arm64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-provider
+
+push-joylive-demo-dubbo2.7-provider:
+	docker push ${repo}/joylive-demo-dubbo2.7-provider:${version}-amd64
+	docker push ${repo}/joylive-demo-dubbo2.7-provider:${version}-arm64
+	docker manifest create ${repo}/joylive-demo-dubbo2.7-provider:${version} \
+	  ${repo}/joylive-demo-dubbo2.7-provider:${version}-amd64 \
+	  ${repo}/joylive-demo-dubbo2.7-provider:${version}-arm64
+	docker manifest push ${repo}/joylive-demo-dubbo2.7-provider:${version}
