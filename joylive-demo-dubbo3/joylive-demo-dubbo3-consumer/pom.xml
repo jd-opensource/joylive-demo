@@ -11,14 +11,11 @@
     <artifactId>joylive-demo-dubbo3-consumer</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.jd.live</groupId>
             <artifactId>joylive-demo-api</artifactId>
             <version>${revision}</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -37,8 +34,19 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
-
     </dependencies>
 
+    <build>
+        <directory>${basedir}/target</directory>
+        <finalName>joylive-demo-dubbo3-consumer</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.jd.live.agent.demo.v3.consumer.Dubbo3Consumer</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

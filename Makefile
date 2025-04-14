@@ -199,3 +199,27 @@ push-joylive-demo-dubbo2.7-provider:
 	  ${repo}/joylive-demo-dubbo2.7-provider:${version}-amd64 \
 	  ${repo}/joylive-demo-dubbo2.7-provider:${version}-arm64
 	docker manifest push ${repo}/joylive-demo-dubbo2.7-provider:${version}
+
+image-joylive-demo-dubbo3-consumer:
+	docker build --platform linux/amd64 -t ${repo}/joylive-demo-dubbo3-consumer:${version}-amd64 ./joylive-demo-dubbo3/joylive-demo-dubbo3-consumer
+	docker build --platform linux/arm64 -t ${repo}/joylive-demo-dubbo3-consumer:${version}-arm64 ./joylive-demo-dubbo3/joylive-demo-dubbo3-consumer
+
+push-joylive-demo-dubbo3-consumer:
+	docker push ${repo}/joylive-demo-dubbo3-consumer:${version}-amd64
+	docker push ${repo}/joylive-demo-dubbo3-consumer:${version}-arm64
+	docker manifest create ${repo}/joylive-demo-dubbo3-consumer:${version} \
+	  ${repo}/joylive-demo-dubbo3-consumer:${version}-amd64 \
+	  ${repo}/joylive-demo-dubbo3-consumer:${version}-arm64
+	docker manifest push ${repo}/joylive-demo-dubbo3-consumer:${version}
+
+image-joylive-demo-dubbo3-provider:
+	docker build --platform linux/amd64 -t ${repo}/joylive-demo-dubbo3-provider:${version}-amd64 ./joylive-demo-dubbo3/joylive-demo-dubbo3-provider
+	docker build --platform linux/arm64 -t ${repo}/joylive-demo-dubbo3-provider:${version}-arm64 ./joylive-demo-dubbo3/joylive-demo-dubbo3-provider
+
+push-joylive-demo-dubbo3-provider:
+	docker push ${repo}/joylive-demo-dubbo3-provider:${version}-amd64
+	docker push ${repo}/joylive-demo-dubbo3-provider:${version}-arm64
+	docker manifest create ${repo}/joylive-demo-dubbo3-provider:${version} \
+	  ${repo}/joylive-demo-dubbo3-provider:${version}-amd64 \
+	  ${repo}/joylive-demo-dubbo3-provider:${version}-arm64
+	docker manifest push ${repo}/joylive-demo-dubbo3-provider:${version}
