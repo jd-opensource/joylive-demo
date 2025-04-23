@@ -1,0 +1,21 @@
+server:
+  port: ${SERVER_PORT:8888}
+  ssl:
+    key-alias: tomcat
+    key-password: 123456
+    key-store: classpath:key/keystore.jks
+    key-store-password: 123456
+    key-store-type: JKS
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          key-password: 123456
+          key-store: classpath:key/keystore.jks
+          key-store-password: 123456
+          key-store-type: JKS
+          use-insecure-trust-manager: true
+    nacos:
+      discovery:
+        secure: true

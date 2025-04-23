@@ -1,5 +1,3 @@
-server:
-  port: ${SERVER_PORT:8888}
 management:
   endpoint:
     gateway:
@@ -80,6 +78,8 @@ spring:
         username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}
         password: ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
         namespace: ${NACOS_NAMESPACE:public}
+  profiles:
+    active: http
 
 logging:
   level:

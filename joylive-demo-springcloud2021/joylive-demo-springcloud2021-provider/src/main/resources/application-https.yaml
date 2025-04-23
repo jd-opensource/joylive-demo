@@ -1,0 +1,13 @@
+server:
+  port: ${SERVER_PORT:${random.int[11000,11999]}}
+  ssl:
+    key-alias: tomcat
+    key-password: 123456
+    key-store: classpath:key/keystore.jks
+    key-store-password: 123456
+    key-store-type: JKS
+spring:
+  cloud:
+    nacos:
+      discovery:
+        secure: true
