@@ -40,7 +40,7 @@ dubbo:
   registry:
     id: nacos-registry
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
-    group: ${APPLICATION_SERVICE_GROUP:live-demo}
+    group: ${APPLICATION_SERVICE_GROUP:}
     parameters:
       namespace: ${NACOS_NAMESPACE:public}
       registry-type: ${DUBBO_REGISTRY_TYPE:}
