@@ -44,9 +44,14 @@ public class OrderController {
                                      @PathVariable Long id,
                                      HttpServletRequest request) {
         Order order = orderService.getById(id);
-        LiveResponse response = userCode.equals(order.getUserCode()) ?
-                new LiveResponse(order) :
-                new LiveResponse(LiveResponse.FORBIDDEN, "FORBIDDEN");
+        LiveResponse response;
+        if (order == null) {
+            response = new LiveResponse(LiveResponse.NOT_FOUND, "NOT_FOUND");
+        } else {
+            response = userCode.equals(order.getUserCode()) ?
+                    new LiveResponse(order) :
+                    new LiveResponse(LiveResponse.FORBIDDEN, "FORBIDDEN");
+        }
         response.addFirst(new LiveTrace(applicationName, LiveLocation.build(),
                 LiveTransmission.build("header", request::getHeader)));
         return response;

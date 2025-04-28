@@ -22,9 +22,9 @@ spring:
       host: ${REDIS_ADDR}
       port: 6379
   datasource:
-    url: jdbc:mariadb://${DB_ADDR}/live_demo
+    url: jdbc:${DB_TYPE:mariadb}://${DB_ADDR}/live_demo
     username: ${DB_USER}
     password: ${DB_PASSWORD}
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: ${DB_DRIVER:org.mariadb.jdbc.Driver}
 server:
   port: ${SERVER_PORT:${random.int[12000,12999]}}

@@ -16,6 +16,7 @@
         <mariadb-java-client.version>3.4.0</mariadb-java-client.version>
         <pagehelper.version>2.1.0</pagehelper.version>
         <caffeine.version>3.1.8</caffeine.version>
+        <postgresql.version>42.7.5</postgresql.version>
     </properties>
 
     <dependencies>
@@ -60,6 +61,12 @@
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
             <version>${mariadb-java-client.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
 
         <dependency>
