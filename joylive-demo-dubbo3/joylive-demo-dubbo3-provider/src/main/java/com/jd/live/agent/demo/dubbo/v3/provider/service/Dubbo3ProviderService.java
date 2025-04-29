@@ -15,13 +15,15 @@
  */
 package com.jd.live.agent.demo.dubbo.v3.provider.service;
 
+import com.jd.live.agent.demo.dubbo.v3.provider.config.EchoConfig;
 import com.jd.live.agent.demo.exception.BreakableException;
 import com.jd.live.agent.demo.exception.RetryableException;
 import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
-import com.jd.live.agent.demo.service.HelloService;
+import com.jd.live.agent.demo.service.SleepService;
+import com.jd.live.agent.demo.util.CpuBusyUtil;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.RpcContextAttachment;
@@ -29,15 +31,39 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-@DubboService(group = "live-demo", interfaceClass = HelloService.class)
-public class Dubbo3ProviderService implements HelloService {
+@DubboService(group = "DEFAULT_GROUP", interfaceClass = SleepService.class)
+public class Dubbo3ProviderService implements SleepService {
 
-    @Value("${spring.application.name}")
-    private String applicationName;
+    private final String applicationName;
+
+    private final EchoConfig config;
+
+    @Value("${echo.suffix}")
+    private String echoSuffix;
+
+    @Value("${mock.cpuPercent:0.2}")
+    private double cpuPercent;
+
+    public Dubbo3ProviderService(@Value("${spring.application.name}") String applicationName, EchoConfig config) {
+        this.applicationName = applicationName;
+        this.config = config;
+    }
 
     @Override
     public LiveResponse echo(String str) {
-        return createResponse(str);
+        int sleepTime = config.getSleepTime();
+        if (sleepTime > 0) {
+            if (config.getRandomTime() > 0) {
+                sleepTime = sleepTime + ThreadLocalRandom.current().nextInt(config.getRandomTime());
+            }
+            CpuBusyUtil.busyCompute(sleepTime);
+        }
+        String value = str + "-sleepTime-" + config.getSleepTime() + "-cpuPercent-" + cpuPercent;
+        String suffix = config.getSuffix();
+        if (suffix != null && !suffix.isEmpty()) {
+            value = value + "-" + suffix;
+        }
+        return createResponse(value);
     }
 
     @Override
@@ -50,6 +76,14 @@ public class Dubbo3ProviderService implements HelloService {
             throw new BreakableException("Code:" + code);
         }
         return createResponse(code);
+    }
+
+    @Override
+    public LiveResponse sleep(int millis) {
+        if (millis > 0) {
+            CpuBusyUtil.busyCompute(millis);
+        }
+        return createResponse(null);
     }
 
     private LiveResponse createResponse(Object data) {
