@@ -30,6 +30,12 @@ spring:
             - Path=/service-order/**
           filters:
             - StripPrefix=1
+        - id: product
+          uri: lb://service-product
+          predicates:
+            - Path=/service-product/**
+          filters:
+            - StripPrefix=1
         - id: consumer
           uri: lb://service-consumer
           predicates:
