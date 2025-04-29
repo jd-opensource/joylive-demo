@@ -39,6 +39,13 @@ spring:
             - Method=GET
           filters:
             - StripPrefix=1
+        - id: dubbo3-consumer
+          uri: lb://dubbo3-consumer
+          predicates:
+            - Path=/dubbo3-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
         - id: provider-reactive
           uri: lb://service-provider-reactive
           predicates:
