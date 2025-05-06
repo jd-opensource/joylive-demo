@@ -10,3 +10,10 @@ com:
 logging:
   level:
     com.alipay.sofa.rpc: INFO
+
+echo:
+  sleepTime: ${RESPONSE_WAIT_TIME:2000}
+  randomTime: ${RESPONSE_RANDOM_TIME:1000}
+  suffix:
+mock:
+  cpuPercent: ${CPU_PERCENT:0.2}

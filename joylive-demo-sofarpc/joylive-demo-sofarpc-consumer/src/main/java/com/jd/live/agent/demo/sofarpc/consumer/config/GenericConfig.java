@@ -15,22 +15,24 @@
  */
 package com.jd.live.agent.demo.sofarpc.consumer.config;
 
-import com.alipay.hessian.generic.model.GenericObject;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.jd.live.agent.demo.sofarpc.consumer.json.GenericObjectSerializer;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import com.alipay.sofa.rpc.api.GenericService;
+import com.alipay.sofa.rpc.boot.container.RegistryConfigContainer;
+import com.alipay.sofa.rpc.config.ConsumerConfig;
+import com.jd.live.agent.demo.service.SleepService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class JacksonConfig {
+public class GenericConfig {
 
     @Bean
-    public Jackson2ObjectMapperBuilderCustomizer customizer() {
-        return builder -> {
-            SimpleModule module = new SimpleModule();
-            module.addSerializer(GenericObject.class, new GenericObjectSerializer());
-            builder.modules(module);
-        };
+    public GenericService getGenericService(RegistryConfigContainer registry) {
+        ConsumerConfig<GenericService> consumerConfig = new ConsumerConfig<GenericService>()
+                .setInterfaceId(SleepService.class.getName())
+                .setGeneric(true)
+                .setTimeout(50000)
+                .setRegistry(registry.getRegistryConfig());
+        return consumerConfig.refer();
     }
+
 }

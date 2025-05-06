@@ -18,38 +18,79 @@ package com.jd.live.agent.demo.sofarpc.provider.service;
 import com.alipay.sofa.rpc.context.RpcInvokeContext;
 import com.alipay.sofa.runtime.api.annotation.SofaService;
 import com.alipay.sofa.runtime.api.annotation.SofaServiceBinding;
+import com.jd.live.agent.demo.exception.BreakableException;
+import com.jd.live.agent.demo.exception.RetryableException;
 import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
-import com.jd.live.agent.demo.service.HelloService;
+import com.jd.live.agent.demo.service.SleepService;
+import com.jd.live.agent.demo.sofarpc.provider.config.EchoConfig;
+import com.jd.live.agent.demo.util.CpuBusyUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * SofaRpcProviderService
  *
  * @author yuanjinzhong
  */
-@SofaService(interfaceType = HelloService.class, bindings = {@SofaServiceBinding(bindingType = "bolt")})
+@SofaService(interfaceType = SleepService.class, bindings = {@SofaServiceBinding(bindingType = "bolt")})
 @Service
-public class SofaRpcProviderService implements HelloService {
+public class SofaRpcProviderService implements SleepService {
 
-    @Value("${spring.application.name}")
-    private String applicationName;
+    private final String applicationName;
+
+    private final EchoConfig config;
+
+    @Value("${echo.suffix}")
+    private String echoSuffix;
+
+    @Value("${mock.cpuPercent:0.2}")
+    private double cpuPercent;
+
+    public SofaRpcProviderService(@Value("${spring.application.name}") String applicationName, EchoConfig config) {
+        this.applicationName = applicationName;
+        this.config = config;
+    }
 
     @Override
     public LiveResponse echo(String str) {
-
-        return createResponse(str);
+        int sleepTime = config.getSleepTime();
+        if (sleepTime > 0) {
+            if (config.getRandomTime() > 0) {
+                sleepTime = sleepTime + ThreadLocalRandom.current().nextInt(config.getRandomTime());
+            }
+            CpuBusyUtil.busyCompute(sleepTime);
+        }
+        String value = str + "-sleepTime-" + config.getSleepTime() + "-cpuPercent-" + cpuPercent;
+        String suffix = config.getSuffix();
+        if (suffix != null && !suffix.isEmpty()) {
+            value = value + "-" + suffix;
+        }
+        return createResponse(value);
     }
 
     @Override
     public LiveResponse status(int code) {
-        if (code >= 500) {
-            throw new RuntimeException("Code:" + code);
+        if (code == 600) {
+            if (ThreadLocalRandom.current().nextInt(2) == 0) {
+                throw new RetryableException("Code:" + code);
+            }
+        } else if (code >= 500) {
+            throw new BreakableException("Code:" + code);
         }
         return createResponse(code);
+    }
+
+    @Override
+    public LiveResponse sleep(int millis) {
+        if (millis > 0) {
+            CpuBusyUtil.busyCompute(millis);
+        }
+        return createResponse(null);
     }
 
     private LiveResponse createResponse(Object data) {
