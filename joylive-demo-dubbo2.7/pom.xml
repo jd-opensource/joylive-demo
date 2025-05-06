@@ -18,7 +18,8 @@
     </modules>
 
     <properties>
-        <spring.cloud.version>2021.0.9</spring.cloud.version>
+        <spring-cloud-alibaba.version>2.2.10</spring-cloud-alibaba.version>
+        <spring-cloud-version>Hoxton.SR12</spring-cloud-version>
         <!-- dubbo2.7 support low spring boot version -->
         <spring-boot.version>2.2.9.RELEASE</spring-boot.version>
         <apache-dubbo.version>2.7.23</apache-dubbo.version>
@@ -31,7 +32,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
+                <version>${spring-cloud-version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -39,6 +40,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

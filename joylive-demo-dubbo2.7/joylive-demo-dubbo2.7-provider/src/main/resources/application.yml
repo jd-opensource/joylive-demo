@@ -28,10 +28,9 @@ dubbo:
   registry:
     id: nacos-registry
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
-    group: ${APPLICATION_SERVICE_GROUP:}
     parameters:
       namespace: ${NACOS_NAMESPACE:public}
-      registry-type: ${DUBBO_REGISTRY_TYPE:}
+      registry-type: ${DUBBO_REGISTRY_TYPE:service}
   config-center:
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
   metadata-report:
@@ -46,4 +45,11 @@ dubbo:
       exporter:
         enabled: true
     enable-metadata: true
+
+echo:
+  sleepTime: ${RESPONSE_WAIT_TIME:2000}
+  randomTime: ${RESPONSE_RANDOM_TIME:1000}
+  suffix:
+mock:
+  cpuPercent: ${CPU_PERCENT:0.2}
 

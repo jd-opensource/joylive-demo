@@ -22,13 +22,16 @@ spring:
     default-property-inclusion: non_null
     serialization:
       indent_output: true
-
-live:
-  live-space-id: ${APPLICATION_LOCATION_LIVESPACE_ID}
-  rule-id: 1003
-  uid: unit1
-  lane-space-id:
-  lane-code:
+  cloud:
+    nacos:
+      discovery:
+        enabled: ${NACOS_ENABLED:true}
+        namespace: ${NACOS_NAMESPACE:public}
+        password: ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
+        server-addr: ${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
+        username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}
+      password: ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
+      username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}
 
 dubbo:
   application:
@@ -40,10 +43,10 @@ dubbo:
   registry:
     id: nacos-registry
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
-    group: ${APPLICATION_SERVICE_GROUP:}
+    group: DEFAULT_GROUP
     parameters:
       namespace: ${NACOS_NAMESPACE:public}
-      registry-type: ${DUBBO_REGISTRY_TYPE:}
+      registry-type: ${DUBBO_REGISTRY_TYPE:service}
   config-center:
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
   metadata-report:
