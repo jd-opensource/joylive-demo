@@ -28,8 +28,6 @@ dubbo:
   registry:
     id: zookeeper-registry
     address: zookeeper://${ZOOKEEPER_ADDRESS}
-    parameters:
-      registry-type: ${DUBBO_REGISTRY_TYPE:service}
 echo:
   sleepTime: ${RESPONSE_WAIT_TIME:2000}
   randomTime: ${RESPONSE_RANDOM_TIME:1000}
