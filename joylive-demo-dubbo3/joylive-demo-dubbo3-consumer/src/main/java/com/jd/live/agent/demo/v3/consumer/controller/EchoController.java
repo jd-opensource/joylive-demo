@@ -71,7 +71,7 @@ public class EchoController {
     }
 
     @GetMapping("/status/{code}")
-    public LiveResponse statusF(@PathVariable int code, HttpServletRequest request) {
+    public LiveResponse status(@PathVariable int code, HttpServletRequest request) {
         LiveResponse response = sleepService.status(code);
         addTrace(request, response);
         return response;
