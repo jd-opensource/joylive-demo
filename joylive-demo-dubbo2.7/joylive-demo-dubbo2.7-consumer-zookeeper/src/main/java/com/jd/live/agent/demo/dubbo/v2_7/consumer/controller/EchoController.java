@@ -21,8 +21,6 @@ import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
 import com.jd.live.agent.demo.service.SleepService;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.rpc.service.GenericService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,16 +40,10 @@ public class EchoController {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @DubboReference(group = "DEFAULT_GROUP",
-            check = false,
-            methods = {@Method(name = "echo", timeout = 60000)})
+    @Resource
     private SleepService sleepService;
 
-    @DubboReference(interfaceName = "com.jd.live.agent.demo.service.SleepService",
-            group = "DEFAULT_GROUP",
-            check = false,
-            generic = true,
-            methods = {@Method(name = "echo", timeout = 60000)})
+    @Resource
     private GenericService genericService;
 
     @GetMapping("/echo/{str}")
