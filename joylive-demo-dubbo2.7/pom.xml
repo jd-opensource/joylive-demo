@@ -23,7 +23,7 @@
         <spring-cloud-version>Hoxton.SR12</spring-cloud-version>
         <!-- dubbo2.7 support low spring boot version -->
         <spring-boot.version>2.2.9.RELEASE</spring-boot.version>
-        <apache-dubbo.version>2.7.23</apache-dubbo.version>
+        <apache-dubbo.version>2.7.8</apache-dubbo.version>
         <fastjson.version>1.2.83</fastjson.version>
 
         <zookeeper.version>3.9.3</zookeeper.version>
