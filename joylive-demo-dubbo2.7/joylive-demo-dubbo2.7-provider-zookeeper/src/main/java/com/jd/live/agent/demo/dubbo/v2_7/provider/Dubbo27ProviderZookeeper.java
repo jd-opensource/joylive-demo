@@ -22,7 +22,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableDubbo(scanBasePackages = {"com.jd.live.agent.demo.dubbo.v2_7.provider.service"})
 public class Dubbo27ProviderZookeeper {
+
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Dubbo27ProviderZookeeper.class, args);
     }
+
 }

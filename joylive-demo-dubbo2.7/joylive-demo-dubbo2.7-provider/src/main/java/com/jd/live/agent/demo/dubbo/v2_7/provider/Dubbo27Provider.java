@@ -23,8 +23,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @EnableDubbo(scanBasePackages = {"com.jd.live.agent.demo.dubbo.v2_7.provider.service"})
 public class Dubbo27Provider {
+
     public static void main(String[] args) throws Exception {
         SnapShotSwitch.setIsSnapShot(false);
         SpringApplication.run(Dubbo27Provider.class, args);
     }
+
 }
