@@ -11,6 +11,10 @@
 
     <artifactId>joylive-demo-dubbo2.7-consumer-zookeeper</artifactId>
 
+    <properties>
+        <apache-dubbo.version>2.7.8</apache-dubbo.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.jd.live</groupId>
@@ -20,7 +24,32 @@
 
         <dependency>
             <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <version>${apache-dubbo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-config-spring</artifactId>
+            <version>${apache-dubbo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-remoting-netty4</artifactId>
+            <version>${apache-dubbo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-serialization-hessian2</artifactId>
+            <version>${apache-dubbo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-registry-nacos</artifactId>
+            <version>${apache-dubbo.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.dubbo</groupId>
@@ -53,7 +82,7 @@
 
     <build>
         <directory>${basedir}/target</directory>
-        <finalName>joylive-demo-dubbo2.7-consumer</finalName>
+        <finalName>joylive-demo-dubbo2.7-consumer-zookeeper</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

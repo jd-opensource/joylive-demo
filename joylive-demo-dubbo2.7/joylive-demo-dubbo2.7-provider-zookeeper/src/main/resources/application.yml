@@ -19,6 +19,8 @@ spring:
     name: dubbo2.7-provider
 
 dubbo:
+  scan:
+    base-packages: com.jd.live.agent.demo.dubbo.v2_7.provider.service
   application:
     name: ${spring.application.name}
     qos-port: 22222

@@ -22,8 +22,8 @@
         <spring-cloud-alibaba.version>2.2.10</spring-cloud-alibaba.version>
         <spring-cloud-version>Hoxton.SR12</spring-cloud-version>
         <!-- dubbo2.7 support low spring boot version -->
-        <spring-boot.version>2.2.9.RELEASE</spring-boot.version>
-        <apache-dubbo.version>2.7.8</apache-dubbo.version>
+        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+        <apache-dubbo.version>2.7.23</apache-dubbo.version>
         <fastjson.version>1.2.83</fastjson.version>
 
         <zookeeper.version>3.9.3</zookeeper.version>
@@ -76,6 +76,31 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${apache-dubbo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-config-spring</artifactId>
+                <version>${apache-dubbo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-remoting-netty4</artifactId>
+                <version>${apache-dubbo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-serialization-hessian2</artifactId>
+                <version>${apache-dubbo.version}</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>
@@ -95,27 +120,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>${apache-dubbo.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-config-spring</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-remoting-netty4</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-serialization-hessian2</artifactId>
         </dependency>
 
         <dependency>

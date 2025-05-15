@@ -15,12 +15,10 @@
  */
 package com.jd.live.agent.demo.dubbo.v2_7.provider;
 
-import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@EnableDubbo(scanBasePackages = {"com.jd.live.agent.demo.dubbo.v2_7.provider.service"})
 public class Dubbo27ProviderZookeeper {
 
     public static void main(String[] args) throws Exception {
