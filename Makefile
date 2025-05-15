@@ -188,6 +188,18 @@ push-joylive-demo-dubbo2.7-consumer:
 	  ${repo}/joylive-demo-dubbo2.7-consumer:${version}-arm64
 	docker manifest push ${repo}/joylive-demo-dubbo2.7-consumer:${version}
 
+image-joylive-demo-dubbo2.7-consumer-zookeeper:
+	docker build --platform linux/amd64 -t ${repo}/joylive-demo-dubbo2.7-consumer-zookeeper:${version}-amd64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-consumer-zookeeper
+	docker build --platform linux/arm64 -t ${repo}/joylive-demo-dubbo2.7-consumer-zookeeper:${version}-arm64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-consumer-zookeeper
+
+push-joylive-demo-dubbo2.7-consumer-zookeeper:
+	docker push ${repo}/joylive-demo-dubbo2.7-consumer-zookeeper:${version}-amd64
+	docker push ${repo}/joylive-demo-dubbo2.7-consumer-zookeeper:${version}-arm64
+	docker manifest create ${repo}/joylive-demo-dubbo2.7-consumer-zookeeper:${version} \
+	  ${repo}/joylive-demo-dubbo2.7-consumer-zookeeper:${version}-amd64 \
+	  ${repo}/joylive-demo-dubbo2.7-consumer-zookeeper:${version}-arm64
+	docker manifest push ${repo}/joylive-demo-dubbo2.7-consumer-zookeeper:${version}
+
 image-joylive-demo-dubbo2.7-provider:
 	docker build --platform linux/amd64 -t ${repo}/joylive-demo-dubbo2.7-provider:${version}-amd64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-provider
 	docker build --platform linux/arm64 -t ${repo}/joylive-demo-dubbo2.7-provider:${version}-arm64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-provider
@@ -199,6 +211,18 @@ push-joylive-demo-dubbo2.7-provider:
 	  ${repo}/joylive-demo-dubbo2.7-provider:${version}-amd64 \
 	  ${repo}/joylive-demo-dubbo2.7-provider:${version}-arm64
 	docker manifest push ${repo}/joylive-demo-dubbo2.7-provider:${version}
+
+image-joylive-demo-dubbo2.7-provider-zookeeper:
+	docker build --platform linux/amd64 -t ${repo}/joylive-demo-dubbo2.7-provider-zookeeper:${version}-amd64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-provider-zookeeper
+	docker build --platform linux/arm64 -t ${repo}/joylive-demo-dubbo2.7-provider-zookeeper:${version}-arm64 ./joylive-demo-dubbo2.7/joylive-demo-dubbo2.7-provider-zookeeper
+
+push-joylive-demo-dubbo2.7-provider-zookeeper:
+	docker push ${repo}/joylive-demo-dubbo2.7-provider-zookeeper:${version}-amd64
+	docker push ${repo}/joylive-demo-dubbo2.7-provider-zookeeper:${version}-arm64
+	docker manifest create ${repo}/joylive-demo-dubbo2.7-provider-zookeeper:${version} \
+	  ${repo}/joylive-demo-dubbo2.7-provider-zookeeper:${version}-amd64 \
+	  ${repo}/joylive-demo-dubbo2.7-provider-zookeeper:${version}-arm64
+	docker manifest push ${repo}/joylive-demo-dubbo2.7-provider-zookeeper:${version}
 
 image-joylive-demo-dubbo3-consumer:
 	docker build --platform linux/amd64 -t ${repo}/joylive-demo-dubbo3-consumer:${version}-amd64 ./joylive-demo-dubbo3/joylive-demo-dubbo3-consumer
