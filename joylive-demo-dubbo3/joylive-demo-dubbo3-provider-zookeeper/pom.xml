@@ -8,7 +8,7 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>joylive-demo-dubbo3-provider</artifactId>
+    <artifactId>joylive-demo-dubbo3-provider-zookeeper</artifactId>
 
     <dependencies>
         <dependency>
@@ -18,12 +18,13 @@
         </dependency>
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-registry-nacos</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-configcenter-nacos</artifactId>
+            <artifactId>dubbo-registry-zookeeper</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.dubbo</groupId>
+                    <artifactId>dubbo-common</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -35,7 +36,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.jd.live.agent.demo.dubbo.v3.provider.Dubbo3Provider</mainClass>
+                    <mainClass>com.jd.live.agent.demo.dubbo.v3.provider.Dubbo3ProviderZookeeper</mainClass>
                 </configuration>
             </plugin>
         </plugins>

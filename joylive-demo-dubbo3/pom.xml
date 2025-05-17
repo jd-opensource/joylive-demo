@@ -15,11 +15,14 @@
         <apache-dubbo.version>3.2.11</apache-dubbo.version>
         <spring.cloud.version>2021.0.9</spring.cloud.version>
         <spring-boot.version>2.7.18</spring-boot.version>
+        <zookeeper.version>3.9.3</zookeeper.version>
     </properties>
 
     <modules>
         <module>joylive-demo-dubbo3-consumer</module>
+        <module>joylive-demo-dubbo3-consumer-zookeeper</module>
         <module>joylive-demo-dubbo3-provider</module>
+        <module>joylive-demo-dubbo3-provider-zookeeper</module>
     </modules>
 
     <dependencyManagement>
@@ -46,6 +49,21 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.apache.zookeeper</groupId>
+                <artifactId>zookeeper</artifactId>
+                <version>${zookeeper.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-log4j12</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
 
     </dependencyManagement>
@@ -69,16 +87,6 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-registry-nacos</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-configcenter-nacos</artifactId>
         </dependency>
 
         <dependency>

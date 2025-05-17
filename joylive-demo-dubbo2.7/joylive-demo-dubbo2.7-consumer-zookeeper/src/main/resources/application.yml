@@ -47,3 +47,5 @@ dubbo:
   registry:
     id: zookeeper-registry
     address: zookeeper://${ZOOKEEPER_ADDRESS}?root=${ZOOKEEPER_ROOT_PATH:dubbo}
+    parameters:
+      registry-type: ${DUBBO_REGISTRY_TYPE:service}
