@@ -36,10 +36,7 @@ spring:
 dubbo:
   application:
     name: ${spring.application.name}
-    qos-port: 22221
-  protocol:
-    name: dubbo
-    port: -1
+    qos-port: ${DUBBO_PORT:${random.int[20880,22000]}}
   registry:
     id: nacos-registry
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
@@ -47,8 +44,3 @@ dubbo:
     parameters:
       namespace: ${NACOS_NAMESPACE:public}
       registry-type: ${DUBBO_REGISTRY_TYPE:service}
-  config-center:
-    address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
-  metadata-report:
-    address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
-

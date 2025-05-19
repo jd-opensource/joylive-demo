@@ -23,15 +23,15 @@ dubbo:
     base-packages: com.jd.live.agent.demo.dubbo.v2_7.provider.service
   application:
     name: ${spring.application.name}
-    qos-port: 22222
+    qos-port: ${DUBBO_QOS_PORT:${random.int[22222,25555]}}
   protocol:
     name: dubbo
-    port: -1
+    port: ${DUBBO_PORT:${random.int[20880,22000]}}
   registry:
     id: zookeeper-registry
     address: zookeeper://${ZOOKEEPER_ADDRESS}
     parameters:
-      registry-type: ${DUBBO_REGISTRY_TYPE:service}
+      registry-type: ${DUBBO_REGISTRY_TYPE:interface}
 echo:
   sleepTime: ${RESPONSE_WAIT_TIME:2000}
   randomTime: ${RESPONSE_RANDOM_TIME:1000}

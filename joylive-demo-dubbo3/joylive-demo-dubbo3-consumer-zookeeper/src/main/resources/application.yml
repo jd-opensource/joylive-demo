@@ -35,11 +35,10 @@ spring:
 
 server:
   port: ${SERVER_PORT:${random.int[10000,10999]}}
-
 dubbo:
   application:
     name: ${spring.application.name}
-    qos-port: 22221
+    qos-port: ${DUBBO_QOS_PORT:${random.int[22222,25555]}}
     enable-file-cache: false
   registry:
     id: zookeeper-registry

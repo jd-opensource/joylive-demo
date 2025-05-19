@@ -22,28 +22,17 @@ dubbo:
   application:
     name: ${spring.application.name}
     register-mode: ${REGISTER_MODE:all}
-    qos-port: 22222
+    qos-port: ${DUBBO_QOS_PORT:${random.int[22222,25555]}}
     enable-file-cache: false
+  protocol:
+    name: dubbo
+    port: ${DUBBO_PORT:${random.int[20880,22000]}}
   registry:
     id: nacos-registry
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
     group: DEFAULT_GROUP
     parameters:
       namespace: ${NACOS_NAMESPACE:public}
-  config-center:
-    address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
-  metadata-report:
-    address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
-  metrics:
-    protocol: prometheus
-    enable-jvm: true
-    enable-registry: true
-    aggregation:
-      enabled: true
-    prometheus:
-      exporter:
-        enabled: true
-    enable-metadata: true
 echo:
   sleepTime: ${RESPONSE_WAIT_TIME:2000}
   randomTime: ${RESPONSE_RANDOM_TIME:1000}

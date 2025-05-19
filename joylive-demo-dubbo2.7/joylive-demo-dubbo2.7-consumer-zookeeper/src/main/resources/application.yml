@@ -40,12 +40,9 @@ server:
 dubbo:
   application:
     name: ${spring.application.name}
-    qos-port: 22221
-  protocol:
-    name: dubbo
-    port: -1
+    qos-port: ${DUBBO_PORT:${random.int[20880,22000]}}
   registry:
     id: zookeeper-registry
     address: zookeeper://${ZOOKEEPER_ADDRESS}?root=${ZOOKEEPER_ROOT_PATH:dubbo}
     parameters:
-      registry-type: ${DUBBO_REGISTRY_TYPE:service}
+      registry-type: ${DUBBO_REGISTRY_TYPE:interface}
