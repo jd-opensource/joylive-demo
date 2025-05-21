@@ -20,7 +20,7 @@ spring:
 
 dubbo:
   application:
-    name: ${spring.application.name}
+    name: app-dubbo3-provider
     register-mode: ${REGISTER_MODE:all}
     qos-port: ${DUBBO_QOS_PORT:${random.int[22222,25555]}}
     enable-file-cache: false

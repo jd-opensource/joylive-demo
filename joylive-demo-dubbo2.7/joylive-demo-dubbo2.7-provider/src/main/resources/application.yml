@@ -20,7 +20,7 @@ spring:
 
 dubbo:
   application:
-    name: ${spring.application.name}
+    name: app-dubbo2-provider
     qos-port: ${DUBBO_QOS_PORT:${random.int[22222,25555]}}
   protocol:
     name: dubbo

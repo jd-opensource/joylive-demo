@@ -39,7 +39,7 @@ server:
 
 dubbo:
   application:
-    name: ${spring.application.name}
+    name: app-dubbo2-consumer
     qos-port: ${DUBBO_PORT:${random.int[20880,22000]}}
   registry:
     id: zookeeper-registry

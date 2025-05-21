@@ -42,12 +42,12 @@ public class EchoController {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @DubboReference(providedBy = "dubbo3-provider", group = "DEFAULT_GROUP", methods = {
+    @DubboReference(providedBy = "app-dubbo3-provider", group = "DEFAULT_GROUP", methods = {
             @Method(name = "echo", timeout = 60000)
     })
     private SleepService sleepService;
 
-    @DubboReference(interfaceClass = SleepService.class, providedBy = "dubbo3-provider", group = "DEFAULT_GROUP", methods = {
+    @DubboReference(interfaceClass = SleepService.class, providedBy = "app-dubbo3-provider", group = "DEFAULT_GROUP", methods = {
             @Method(name = "echo", timeout = 60000)
     })
     private GenericService genericService;
