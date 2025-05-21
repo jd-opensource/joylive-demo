@@ -16,7 +16,7 @@
 
 spring:
   application:
-    name: dubbo2.7-consumer
+    name: dubbo2-consumer
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
     default-property-inclusion: non_null

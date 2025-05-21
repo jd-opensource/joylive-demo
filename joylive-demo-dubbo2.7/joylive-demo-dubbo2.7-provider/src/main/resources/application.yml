@@ -16,7 +16,7 @@
 
 spring:
   application:
-    name: dubbo2.7-provider
+    name: dubbo2-provider
 
 dubbo:
   application:

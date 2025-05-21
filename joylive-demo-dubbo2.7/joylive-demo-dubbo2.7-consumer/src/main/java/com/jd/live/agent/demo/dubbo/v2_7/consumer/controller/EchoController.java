@@ -42,14 +42,14 @@ public class EchoController {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @DubboReference(providedBy = "dubbo2.7-provider",
+    @DubboReference(providedBy = "dubbo2-provider",
             group = "DEFAULT_GROUP",
             check = false,
             methods = {@Method(name = "echo", timeout = 60000)})
     private SleepService sleepService;
 
     @DubboReference(interfaceName = "com.jd.live.agent.demo.service.SleepService",
-            providedBy = "dubbo2.7-provider",
+            providedBy = "dubbo2-provider",
             group = "DEFAULT_GROUP",
             check = false,
             generic = true,
