@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.concurrent.ThreadLocalRandom;
 
 @DubboService(group = "DEFAULT_GROUP", interfaceClass = SleepService.class)
-public class Dubbo3ProviderService implements SleepService {
+public class Dubbo3SleepService implements SleepService {
 
     private final String applicationName;
 
@@ -44,7 +44,7 @@ public class Dubbo3ProviderService implements SleepService {
     @Value("${mock.cpuPercent:0.2}")
     private double cpuPercent;
 
-    public Dubbo3ProviderService(@Value("${spring.application.name}") String applicationName, EchoConfig config) {
+    public Dubbo3SleepService(@Value("${spring.application.name}") String applicationName, EchoConfig config) {
         this.applicationName = applicationName;
         this.config = config;
     }
