@@ -13,7 +13,7 @@
 
     <properties>
         <spring-boot-maven-plugin.version>2.7.18</spring-boot-maven-plugin.version>
-        <apache-dubbo.version>2.7.8</apache-dubbo.version>
+        <apache-dubbo.version>2.7.9</apache-dubbo.version>
     </properties>
 
     <dependencies>
