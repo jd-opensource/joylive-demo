@@ -52,6 +52,9 @@ public class EchoController {
     @Resource
     private NoDiscoveryRestService noDiscoveryRestService;
 
+    @Value("${dynamic.responseValue:defaultValue}")
+    private String responseValue;
+
     @GetMapping({"/echo-rest/{str}", "/echo/{str}"})
     public LiveResponse echoRest(@PathVariable String str, HttpServletRequest request) {
         LiveResponse response = restService.echo(str);
@@ -143,6 +146,11 @@ public class EchoController {
             time = (int) (time - cpuTime);
         }
         return noDiscoveryRestService.state(code, time);
+    }
+
+    @GetMapping({"/dynamic"})
+    public String dynamic(HttpServletRequest request) {
+        return responseValue;
     }
 
     private void addTrace(HttpServletRequest request, LiveResponse response) {

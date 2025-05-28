@@ -45,6 +45,9 @@ public class EchoController {
     @Resource
     private ReactiveService reactiveService;
 
+    @Value("${dynamic.responseValue:defaultValue}")
+    private String responseValue;
+
     @GetMapping({"/echo-rest/{str}", "/echo/{str}"})
     public LiveResponse echoRest(@PathVariable String str, HttpServletRequest request) {
         LiveResponse response = restService.echo(str);
@@ -92,6 +95,11 @@ public class EchoController {
         LiveResponse response = restService.exception();
         addTrace(request, response);
         return response;
+    }
+
+    @GetMapping({"/dynamic"})
+    public String dynamic(HttpServletRequest request) {
+        return responseValue;
     }
 
     private void addTrace(HttpServletRequest request, LiveResponse response) {
