@@ -83,10 +83,11 @@ spring:
           enabled: true
     nacos:
       discovery:
+        service: ${APPLICATION_SERVICE_NAME:${APPLICATION_NAME:spring-gateway}}
         server-addr: ${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
         username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}
         password: ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
-        namespace: ${NACOS_NAMESPACE:public}
+        namespace: ${NACOS_NAMESPACE:${REGISTRY_NAMESPACE:public}}
 
 logging:
   level:

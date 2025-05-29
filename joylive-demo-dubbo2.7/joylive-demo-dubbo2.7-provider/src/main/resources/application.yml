@@ -29,7 +29,7 @@ dubbo:
     id: nacos-registry
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
     parameters:
-      namespace: ${NACOS_NAMESPACE:public}
+      namespace: ${NACOS_NAMESPACE:${REGISTRY_NAMESPACE:public}}
       registry-type: ${DUBBO_REGISTRY_TYPE:service}
 
 echo:

@@ -9,9 +9,10 @@ spring:
   cloud:
     nacos:
       discovery:
+        service: ${APPLICATION_SERVICE_NAME:${APPLICATION_NAME:service-order}}
         server-addr: ${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
         fail-fast: true
-        namespace: ${NACOS_NAMESPACE:public}
+        namespace: ${NACOS_NAMESPACE:${REGISTRY_NAMESPACE:public}}
         username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}
         password: ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
       username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}

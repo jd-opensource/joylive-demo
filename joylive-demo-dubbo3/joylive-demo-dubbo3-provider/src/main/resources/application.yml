@@ -32,7 +32,7 @@ dubbo:
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
     group: DEFAULT_GROUP
     parameters:
-      namespace: ${NACOS_NAMESPACE:public}
+      namespace: ${NACOS_NAMESPACE:${REGISTRY_NAMESPACE:public}}
 echo:
   sleepTime: ${RESPONSE_WAIT_TIME:2000}
   randomTime: ${RESPONSE_RANDOM_TIME:1000}
