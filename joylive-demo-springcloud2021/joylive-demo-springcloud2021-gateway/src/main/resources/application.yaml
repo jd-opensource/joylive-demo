@@ -8,7 +8,7 @@ management:
         include: "gateway"
 spring:
   application:
-    name: spring-gateway
+    name: ${APPLICATION_NAME:spring-gateway}
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
     default-property-inclusion: non_null
