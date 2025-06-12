@@ -57,6 +57,13 @@ spring:
             - Method=GET
           filters:
             - StripPrefix=1
+        - id: sofarpc-consumer
+          uri: lb://sofarpc-consumer
+          predicates:
+            - Path=/sofarpc-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
         - id: provider-reactive
           uri: lb://service-provider-reactive
           predicates:
