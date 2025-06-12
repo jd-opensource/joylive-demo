@@ -29,4 +29,3 @@ com:
 logging:
   level:
     com.alipay.sofa.rpc: INFO
-debug: true
