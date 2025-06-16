@@ -39,6 +39,6 @@ management:
 echo:
   sleepTime: ${RESPONSE_WAIT_TIME:2000}
   randomTime: ${RESPONSE_RANDOM_TIME:1000}
-  suffix:
+  suffix: suffix
 mock:
   cpuPercent: ${CPU_PERCENT:0.2}
