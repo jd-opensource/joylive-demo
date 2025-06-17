@@ -54,21 +54,26 @@ public class GlobalExceptionHandler {
 
     private LiveResponse getResponse(Exception e) {
         LiveResponse response = null;
+        int code = 500;
         byte[] body = null;
         if (e instanceof RestClientResponseException) {
             RestClientResponseException exception = (RestClientResponseException) e;
             body = exception.getResponseBodyAsByteArray();
+            code = exception.getRawStatusCode();
         } else if (e instanceof FeignException) {
             FeignException exception = (FeignException) e;
             body = exception.content();
+            code = exception.status();
         } else if (e instanceof WebClientResponseException) {
             WebClientResponseException responseException = (WebClientResponseException) e;
             body = responseException.getResponseBodyAsByteArray();
+            code = responseException.getRawStatusCode();
         }
         if (body != null) {
             try {
                 response = objectMapper.readValue(body, LiveResponse.class);
-            } catch (Throwable ignore) {
+            } catch (Throwable ex) {
+                response = new LiveResponse(code, new String(body));
             }
         }
         return response;
