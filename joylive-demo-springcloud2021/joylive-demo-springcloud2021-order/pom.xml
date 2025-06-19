@@ -17,6 +17,8 @@
         <pagehelper.version>2.1.0</pagehelper.version>
         <caffeine.version>3.1.8</caffeine.version>
         <postgresql.version>42.7.5</postgresql.version>
+        <druid-spring-boot-starter.version>1.2.25</druid-spring-boot-starter.version>
+        <druid-starter.version>${druid-spring-boot-starter.version}</druid-starter.version>
     </properties>
 
     <dependencies>
@@ -54,6 +56,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid-starter.version}</version>
         </dependency>
 
         <dependency>
