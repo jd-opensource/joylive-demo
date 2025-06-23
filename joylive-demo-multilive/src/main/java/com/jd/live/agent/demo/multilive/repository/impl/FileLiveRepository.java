@@ -21,6 +21,7 @@ import com.jd.live.agent.demo.multilive.entity.Workspace;
 import com.jd.live.agent.demo.multilive.repository.LiveRepository;
 import com.jd.live.agent.governance.policy.live.LiveSpace;
 import com.jd.live.agent.governance.policy.live.LiveSpec;
+import com.jd.live.agent.governance.policy.live.db.LiveDatabaseSpec;
 import com.jd.live.agent.governance.policy.service.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+
+import static com.jd.live.agent.core.util.CollectionUtils.toMap;
 
 @Repository
 public class FileLiveRepository implements LiveRepository {
@@ -48,6 +50,8 @@ public class FileLiveRepository implements LiveRepository {
 
     private Map<String, LiveSpace> liveSpaceMap;
 
+    private Map<String, LiveDatabaseSpec> databaseSpecMap;
+
     private List<LiveSpace> liveSpaces;
 
     public FileLiveRepository(ObjectMapper mapper) {
@@ -55,9 +59,10 @@ public class FileLiveRepository implements LiveRepository {
         CountDownLatch latch = new CountDownLatch(1);
         Thread thread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
-                serviceMap = loadServices().stream().collect(Collectors.toMap(s -> s.getName().toLowerCase(), s -> s));
+                serviceMap = toMap(loadServices(), s -> s.getName().toLowerCase(), s -> s);
                 liveSpaces = loadSpaces();
-                liveSpaceMap = liveSpaces.stream().collect(Collectors.toMap(LiveSpace::getId, s -> s));
+                liveSpaceMap = toMap(liveSpaces, LiveSpace::getId, s -> s);
+                databaseSpecMap = toMap(loadDatabases(), LiveDatabaseSpec::getId, s -> s);
                 try {
                     latch.await(5000, TimeUnit.MILLISECONDS);
                 } catch (InterruptedException e) {
@@ -100,6 +105,20 @@ public class FileLiveRepository implements LiveRepository {
         return result == null ? new ArrayList<>() : result;
     }
 
+    private List<LiveDatabaseSpec> loadDatabases() {
+        List<LiveDatabaseSpec> result = null;
+        URL url = this.getClass().getClassLoader().getResource("databases.json");
+        if (url != null) {
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+                result = mapper.readValue(reader, new TypeReference<List<LiveDatabaseSpec>>() {
+                });
+            } catch (IOException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
+        return result == null ? new ArrayList<>() : result;
+    }
+
     @Override
     public Service getService(String name) {
         return serviceMap == null || name == null ? null : serviceMap.get(name.toLowerCase());
@@ -108,6 +127,11 @@ public class FileLiveRepository implements LiveRepository {
     @Override
     public LiveSpace getLiveSpace(String id) {
         return liveSpaceMap == null ? null : liveSpaceMap.get(id);
+    }
+
+    @Override
+    public LiveDatabaseSpec getLiveDatabaseSpec(String id) {
+        return databaseSpecMap == null ? null : databaseSpecMap.get(id.toLowerCase());
     }
 
     @Override

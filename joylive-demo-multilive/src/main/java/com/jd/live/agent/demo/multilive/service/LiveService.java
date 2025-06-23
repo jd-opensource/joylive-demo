@@ -17,15 +17,41 @@ package com.jd.live.agent.demo.multilive.service;
 
 import com.jd.live.agent.demo.multilive.entity.Workspace;
 import com.jd.live.agent.governance.policy.live.LiveSpace;
+import com.jd.live.agent.governance.policy.live.db.LiveDatabaseSpec;
 import com.jd.live.agent.governance.policy.service.Service;
 
 import java.util.List;
 
+/**
+ * Provides access to live (real-time) services and resources in a distributed system.
+ */
 public interface LiveService {
-
+    /**
+     * Retrieves a service instance by name.
+     *
+     * @param name The service identifier
+     * @return The Service instance, or null if not found
+     */
     Service getService(String name);
 
+    /**
+     * Gets a live space (isolated runtime environment) by ID.
+     * @param id The space identifier
+     * @return The LiveSpace instance, or null if not found
+     */
     LiveSpace getLiveSpace(String id);
 
+    /**
+     * Retrieves the database specification for a live resource.
+     *
+     * @param id The specification identifier
+     * @return The LiveDatabaseSpec, or null if not found
+     */
+    LiveDatabaseSpec getLiveDatabaseSpec(String id);
+
+    /**
+     * Lists all available active workspaces.
+     * @return Immutable list of Workspace instances (empty if none)
+     */
     List<Workspace> getLiveSpaces();
 }

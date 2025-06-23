@@ -19,6 +19,7 @@ import com.jd.live.agent.demo.multilive.entity.Workspace;
 import com.jd.live.agent.demo.multilive.repository.LiveRepository;
 import com.jd.live.agent.demo.multilive.service.LiveService;
 import com.jd.live.agent.governance.policy.live.LiveSpace;
+import com.jd.live.agent.governance.policy.live.db.LiveDatabaseSpec;
 import com.jd.live.agent.governance.policy.service.Service;
 
 import java.util.List;
@@ -40,6 +41,11 @@ public class LiveServiceImpl implements LiveService {
     @Override
     public LiveSpace getLiveSpace(String id) {
         return liveRepository.getLiveSpace(id);
+    }
+
+    @Override
+    public LiveDatabaseSpec getLiveDatabaseSpec(String id) {
+        return liveRepository.getLiveDatabaseSpec(id);
     }
 
     @Override
