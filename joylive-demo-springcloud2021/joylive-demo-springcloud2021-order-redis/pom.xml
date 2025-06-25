@@ -9,7 +9,7 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>joylive-demo-springcloud2021-order-lettuce</artifactId>
+    <artifactId>joylive-demo-springcloud2021-order-redis</artifactId>
 
     <properties>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
@@ -152,7 +152,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.jd.live.agent.demo.springcloud.v2021.order.SpringCloud2021OrderLettuceApplication
+                    <mainClass>com.jd.live.agent.demo.springcloud.v2021.order.SpringCloud2021OrderRedisApplication
                     </mainClass>
                 </configuration>
             </plugin>

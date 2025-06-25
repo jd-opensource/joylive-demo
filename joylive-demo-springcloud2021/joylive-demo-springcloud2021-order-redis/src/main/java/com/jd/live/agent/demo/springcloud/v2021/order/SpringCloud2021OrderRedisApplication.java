@@ -23,9 +23,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @EnableCaching
 @SpringBootApplication
-public class SpringCloud2021OrderLettuceApplication {
+public class SpringCloud2021OrderRedisApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringCloud2021OrderLettuceApplication.class, args);
+        SpringApplication.run(SpringCloud2021OrderRedisApplication.class, args);
     }
 }
