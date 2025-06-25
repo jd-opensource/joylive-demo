@@ -20,10 +20,12 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
 @TableName("user_info")
-public class User {
+public class User implements Serializable {
     @TableId
     private Long id;
     private String code;
