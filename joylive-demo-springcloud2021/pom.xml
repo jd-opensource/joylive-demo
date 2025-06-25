@@ -32,6 +32,7 @@
         <module>joylive-demo-springcloud2021-gateway</module>
         <module>joylive-demo-springcloud2021-gateway-eureka</module>
         <module>joylive-demo-springcloud2021-order</module>
+        <module>joylive-demo-springcloud2021-order-lettuce</module>
         <module>joylive-demo-springcloud2021-product</module>
         <module>joylive-demo-springboot2021-provider</module>
         <module>joylive-demo-springboot2021-provider-reactive</module>
