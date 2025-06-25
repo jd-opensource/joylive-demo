@@ -21,6 +21,7 @@
         <druid-starter.version>${druid-spring-boot-starter.version}</druid-starter.version>
         <jedis.version>5.2.0</jedis.version>
         <lettuce-core.version>6.7.0.RELEASE</lettuce-core.version>
+        <micrometer.version>1.15.0</micrometer.version>
     </properties>
 
     <dependencies>
@@ -86,6 +87,12 @@
             <groupId>io.lettuce</groupId>
             <artifactId>lettuce-core</artifactId>
             <version>${lettuce-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-commons</artifactId>
+            <version>${micrometer.version}</version>
         </dependency>
 
         <dependency>
