@@ -40,4 +40,3 @@ spring:
       driver-class-name: ${DB_DRIVER:org.mariadb.jdbc.Driver}
 server:
   port: ${SERVER_PORT:${random.int[12000,12999]}}
-debug: true
