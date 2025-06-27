@@ -19,6 +19,8 @@ spring:
       password: ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
   cache:
     type: ${CACHE_TYPE:CAFFEINE}
+    redis:
+      time-to-live: 10s
   redis:
     host: ${CACHE_REDIS_ADDR}
     port: ${CACHE_REDIS_PORT:6379}
