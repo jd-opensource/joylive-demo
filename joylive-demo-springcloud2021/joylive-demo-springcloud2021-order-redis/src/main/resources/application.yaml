@@ -24,7 +24,7 @@ spring:
   redis:
     host: ${CACHE_REDIS_ADDR}
     port: ${CACHE_REDIS_PORT:6379}
-    client-type: ${CACHE_REDIS_CLIENT_TYPE:lettuce}
+    client-type: ${CACHE_REDIS_CLIENT_TYPE:LETTUCE}
     jedis:
       pool:
         enabled: true
