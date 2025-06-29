@@ -25,9 +25,6 @@ spring:
     host: ${CACHE_REDIS_ADDR}
     port: ${CACHE_REDIS_PORT:6379}
     client-type: ${CACHE_REDIS_CLIENT_TYPE:LETTUCE}
-    jedis:
-      pool:
-        enabled: true
     password: ${CACHE_REDIS_PASSWORD:}
     client-name: ${CACHE_REDIS_CLIENT_NAME:${APPLICATION_NAME:service-order}}
   datasource:
