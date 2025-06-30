@@ -20,9 +20,9 @@
         <druid-spring-boot-starter.version>1.2.25</druid-spring-boot-starter.version>
         <druid-starter.version>${druid-spring-boot-starter.version}</druid-starter.version>
         <jedis.version>4.4.8</jedis.version>
-        <lettuce-core.version>6.7.0.RELEASE</lettuce-core.version>
         <micrometer.version>1.15.0</micrometer.version>
         <spring-data-redis.version>3.0.12</spring-data-redis.version>
+        <spring-cache.version>3.0.13</spring-cache.version>
     </properties>
 
     <dependencies>
@@ -40,21 +40,13 @@
         </dependency>
 
         <dependency>
-            <groupId>io.lettuce</groupId>
-            <artifactId>lettuce-core</artifactId>
-            <version>${lettuce-core.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-            <version>${spring-data-redis.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>${spring-data-redis.version}</version>
         </dependency>
 
         <dependency>
