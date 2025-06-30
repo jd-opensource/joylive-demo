@@ -27,6 +27,9 @@ spring:
     client-type: ${CACHE_REDIS_CLIENT_TYPE:LETTUCE}
     password: ${CACHE_REDIS_PASSWORD:}
     client-name: ${CACHE_REDIS_CLIENT_NAME:${APPLICATION_NAME:service-order}}
+    jedis:
+      pool:
+        enabled: ${CACHE_REDIS_POOL_ENABLED:true}
   datasource:
 #    url: jdbc:${DB_TYPE:mariadb}://${DB_ADDR}/live_demo
 #    username: ${DB_USER}
