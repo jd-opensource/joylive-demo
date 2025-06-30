@@ -19,9 +19,10 @@
         <postgresql.version>42.7.5</postgresql.version>
         <druid-spring-boot-starter.version>1.2.25</druid-spring-boot-starter.version>
         <druid-starter.version>${druid-spring-boot-starter.version}</druid-starter.version>
-        <jedis.version>5.2.0</jedis.version>
+        <jedis.version>4.4.8</jedis.version>
         <lettuce-core.version>6.7.0.RELEASE</lettuce-core.version>
         <micrometer.version>1.15.0</micrometer.version>
+        <spring-data-redis.version>3.0.12</spring-data-redis.version>
     </properties>
 
     <dependencies>
@@ -30,6 +31,30 @@
             <groupId>com.jd.live</groupId>
             <artifactId>joylive-demo-api</artifactId>
             <version>${revision}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${jedis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>${lettuce-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>${spring-data-redis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring-data-redis.version}</version>
         </dependency>
 
         <dependency>
@@ -56,10 +81,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -69,24 +90,7 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>${jedis.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.lettuce</groupId>
-            <artifactId>lettuce-core</artifactId>
-            <version>${lettuce-core.version}</version>
         </dependency>
 
         <dependency>
