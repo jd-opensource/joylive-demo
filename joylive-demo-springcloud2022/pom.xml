@@ -26,6 +26,7 @@
         <module>joylive-demo-springcloud2022-provider</module>
         <module>joylive-demo-springcloud2022-gateway</module>
         <module>joylive-demo-springcloud2022-provider-reactive</module>
+        <module>joylive-demo-springcloud2022-order-redis</module>
     </modules>
 
     <dependencyManagement>

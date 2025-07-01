@@ -4,8 +4,8 @@ USER root
 ENV TZ Asia/Shanghai
 
 WORKDIR /export/servers/
-COPY ./target/joylive-demo-springcloud2021-order.jar /export/servers/
+COPY ./target/joylive-demo-springcloud2021-order-redis.jar /export/servers/
 
 VOLUME ["/export/servers/logs", "/export/servers/config"]
 EXPOSE 18081
-ENTRYPOINT ["/bin/bash", "-c", "java ${JAVA_OPTS} ${SGM_OPTS} ${JOYLIVE_OPTS} -jar /export/servers/joylive-demo-springcloud2021-order.jar"]
+ENTRYPOINT ["/bin/bash", "-c", "java ${JAVA_OPTS} ${SGM_OPTS} ${JOYLIVE_OPTS} -jar /export/servers/joylive-demo-springcloud2021-order-redis.jar"]

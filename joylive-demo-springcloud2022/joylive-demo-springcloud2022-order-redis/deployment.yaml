@@ -17,18 +17,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: joylive-demo-springcloud2021-order-redis
+    app: joylive-demo-springcloud2022-order-redis
     x-live-enabled: "true"
-  name: joylive-demo-springcloud2021-order-redis
+  name: joylive-demo-springcloud2022-order-redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: joylive-demo-springcloud2021-order-redis
+      app: joylive-demo-springcloud2022-order-redis
   template:
     metadata:
       labels:
-        app: joylive-demo-springcloud2021-order-redis
+        app: joylive-demo-springcloud2022-order-redis
         x-live-enabled: "true"
     spec:
       containers:
@@ -54,7 +54,7 @@ spec:
             - name: NACOS_PASSWORD
               value: nacos
             - name: APPLICATION_NAME
-              value: springcloud2021-order-redis
+              value: springcloud2022-order-redis
             - name: APPLICATION_SERVICE_NAME
               value: service-order
             - name: APPLICATION_SERVICE_NAMESPACE
@@ -75,9 +75,9 @@ spec:
               value: "1"
             - name: APPLICATION_LOCATION_LANE
               value: production
-          image: hub-vpc.jdcloud.com/jmsf/joylive-demo-springcloud2021-order-redis:1.5.0-da16656c
+          image: hub-vpc.jdcloud.com/jmsf/joylive-demo-springcloud2022-order-redis:1.5.0-da16656c
           imagePullPolicy: Always
-          name: joylive-demo-springcloud2021-order-redis
+          name: joylive-demo-springcloud2022-order-redis
           ports:
             - containerPort: 18081
               name: http
@@ -102,18 +102,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: joylive-demo-springcloud2021-order-redis-gray
+    app: joylive-demo-springcloud2022-order-redis-gray
     x-live-enabled: "true"
-  name: joylive-demo-springcloud2021-order-redis-gray
+  name: joylive-demo-springcloud2022-order-redis-gray
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: joylive-demo-springcloud2021-order-redis-gray
+      app: joylive-demo-springcloud2022-order-redis-gray
   template:
     metadata:
       labels:
-        app: joylive-demo-springcloud2021-order-redis-gray
+        app: joylive-demo-springcloud2022-order-redis-gray
         x-live-enabled: "true"
     spec:
       containers:
@@ -139,7 +139,7 @@ spec:
             - name: NACOS_PASSWORD
               value: nacos
             - name: APPLICATION_NAME
-              value: springcloud2021-order-redis-gray
+              value: springcloud2022-order-redis-gray
             - name: APPLICATION_SERVICE_NAME
               value: service-order
             - name: APPLICATION_SERVICE_NAMESPACE
@@ -160,9 +160,9 @@ spec:
               value: "1"
             - name: APPLICATION_LOCATION_LANE
               value: beta
-          image: hub-vpc.jdcloud.com/jmsf/joylive-demo-springcloud2021-order-redis:1.5.0-da16656c
+          image: hub-vpc.jdcloud.com/jmsf/joylive-demo-springcloud2022-order-redis:1.5.0-da16656c
           imagePullPolicy: Always
-          name: joylive-demo-springcloud2021-order-redis-gray
+          name: joylive-demo-springcloud2022-order-redis-gray
           ports:
             - containerPort: 18081
               name: http

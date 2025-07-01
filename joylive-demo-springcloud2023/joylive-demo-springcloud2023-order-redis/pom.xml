@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.jd.live</groupId>
-        <artifactId>joylive-demo-springcloud2021</artifactId>
+        <artifactId>joylive-demo-springcloud2023</artifactId>
         <version>${revision}</version>
     </parent>
 
-    <artifactId>joylive-demo-springcloud2021-order-redis</artifactId>
+    <artifactId>joylive-demo-springcloud2023-order-redis</artifactId>
 
     <properties>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
@@ -18,7 +18,7 @@
         <caffeine.version>3.1.8</caffeine.version>
         <postgresql.version>42.7.5</postgresql.version>
         <druid-starter.version>1.2.25</druid-starter.version>
-        <jedis.version>3.10.0</jedis.version>
+        <jedis.version>5.0.2</jedis.version>
         <micrometer.version>1.15.0</micrometer.version>
     </properties>
 
@@ -134,13 +134,13 @@
 
     <build>
         <directory>${basedir}/target</directory>
-        <finalName>joylive-demo-springcloud2021-order-redis</finalName>
+        <finalName>joylive-demo-springcloud2023-order-redis</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.jd.live.agent.demo.springcloud.v2021.order.SpringCloud2021OrderRedisApplication
+                    <mainClass>com.jd.live.agent.demo.springcloud.v2023.order.SpringCloud2023OrderRedisApplication
                     </mainClass>
                 </configuration>
             </plugin>
