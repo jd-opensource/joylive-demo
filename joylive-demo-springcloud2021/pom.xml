@@ -33,6 +33,7 @@
         <module>joylive-demo-springcloud2021-gateway-eureka</module>
         <module>joylive-demo-springcloud2021-order</module>
         <module>joylive-demo-springcloud2021-order-redis</module>
+        <module>joylive-demo-springcloud2021-order-redisson</module>
         <module>joylive-demo-springcloud2021-product</module>
         <module>joylive-demo-springboot2021-provider</module>
         <module>joylive-demo-springboot2021-provider-reactive</module>
