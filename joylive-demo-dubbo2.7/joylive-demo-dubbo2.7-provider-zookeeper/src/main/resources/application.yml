@@ -16,7 +16,7 @@
 
 spring:
   application:
-    name: dubbo2-provider
+    name: ${APPLICATION_NAME:dubbo2-provider}
 
 dubbo:
   scan:
