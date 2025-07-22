@@ -126,6 +126,11 @@ public class EchoController {
         return responseValue;
     }
 
+    @GetMapping("/")
+    public String root() {
+        return "forward:/index.html";
+    }
+
     private void addTrace(HttpServletRequest request, LiveResponse response) {
         if (response != null) {
             response.addFirst(new LiveTrace(applicationName, LiveLocation.build(),
