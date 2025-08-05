@@ -29,7 +29,7 @@ dubbo:
     port: ${DUBBO_PORT:${random.int[20880,22000]}}
   registry:
     id: zookeeper-registry
-    address: zookeeper://${ZOOKEEPER_ADDRESS}?backup=${ZOOKEEPER_BACKUP_ADDRESS:}&failovers=${ZOOKEEPER_FAILOVER_ADDRESS:}&timeout=${ZOOKEEPER_CONNECTION_TIMEOUT:5000}
+    address: zookeeper://${ZOOKEEPER_ADDRESS}?backup=${ZOOKEEPER_BACKUP_ADDRESS:}&init.timeout=${ZOOKEEPER_INIT_TIMEOUT:5000}&failovers=${ZOOKEEPER_FAILOVER_ADDRESS:}&timeout=${ZOOKEEPER_CONNECTION_TIMEOUT:5000}
     parameters:
       registry-type: ${DUBBO_REGISTRY_TYPE:interface}
 echo:
