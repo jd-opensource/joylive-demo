@@ -11,6 +11,10 @@
 
     <artifactId>joylive-demo-springcloud2021-provider-reactive</artifactId>
 
+    <properties>
+        <springfox.version>3.0.0</springfox.version>
+    </properties>
+
     <dependencies>
 
         <dependency>
@@ -37,6 +41,24 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spring-webflux</artifactId>
+            <version>${springfox.version}</version>
         </dependency>
 
         <dependency>

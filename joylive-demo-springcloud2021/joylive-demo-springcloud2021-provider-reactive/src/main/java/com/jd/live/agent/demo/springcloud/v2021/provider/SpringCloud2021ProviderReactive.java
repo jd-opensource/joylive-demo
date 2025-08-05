@@ -19,8 +19,10 @@ import com.alibaba.nacos.client.config.utils.SnapShotSwitch;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebFlux;
 
 @EnableDiscoveryClient
+@EnableSwagger2WebFlux
 @SpringBootApplication
 public class SpringCloud2021ProviderReactive {
 
