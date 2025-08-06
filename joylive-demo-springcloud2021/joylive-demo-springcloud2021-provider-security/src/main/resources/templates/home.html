@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Home Page</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="jumbotron">
+            <h1 class="display-4">Welcome to Home Page</h1>
+            <p class="lead">This is a sample application protected by Spring Security.</p>
+            <hr class="my-4">
+            <div sec:authorize="isAuthenticated()">
+                <p>Current User: <span th:text="${username}">username</span></p>
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                <p>Please login to access protected resources.</p>
+                <a class="btn btn-primary" th:href="@{/login}" role="button">Login</a>
+            </div>
+            <div class="mt-3">
+                <a class="btn btn-success" th:href="@{/hello}" role="button">Access Protected Page</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

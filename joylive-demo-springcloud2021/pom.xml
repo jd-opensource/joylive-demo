@@ -27,6 +27,7 @@
         <module>joylive-demo-springcloud2021-provider-war</module>
         <module>joylive-demo-springcloud2021-provider-reactive</module>
         <module>joylive-demo-springcloud2021-provider-eureka</module>
+        <module>joylive-demo-springcloud2021-provider-security</module>
         <module>joylive-demo-springcloud2021-consumer</module>
         <module>joylive-demo-springcloud2021-consumer-eureka</module>
         <module>joylive-demo-springcloud2021-gateway</module>

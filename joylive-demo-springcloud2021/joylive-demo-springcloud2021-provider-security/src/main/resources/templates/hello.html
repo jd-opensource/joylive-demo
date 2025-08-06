@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Protected Page</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.3/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h2>Protected Page</h2>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Welcome, <span th:text="${username}">username</span>!</h5>
+                <p class="card-text">This is a page that requires authentication to access.</p>
+                <div>
+                    <p>Your Role Permissions:</p>
+                    <ul>
+                        <li sec:authorize="hasRole('ADMIN')">Administrator Access</li>
+                        <li sec:authorize="hasRole('USER')">Regular User Access</li>
+                    </ul>
+                </div>
+                <a th:href="@{/}" class="btn btn-primary">Back to Home</a>
+                <form th:action="@{/logout}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
