@@ -53,6 +53,7 @@
         <module>joylive-demo-springcloud2023</module>
         <module>joylive-demo-springcloud2024</module>
         <module>joylive-demo-springcloud2025</module>
+        <module>joylive-demo-springcloud-dalston</module>
         <module>joylive-demo-springcloud-hoxton</module>
         <module>joylive-demo-springcloud-greenwich</module>
         <module>joylive-demo-dubbo3</module>
