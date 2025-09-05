@@ -17,6 +17,7 @@ package com.jd.live.agent.demo.springcloud.v2021.consumer.service;
 
 import com.jd.live.agent.demo.response.LiveResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface FeignService {
 
     @GetMapping("/echo/{str}")
-    LiveResponse echo(@PathVariable("str") String str);
+    LiveResponse echo(@PathVariable("str") String str, @SpringQueryMap EchoQuery query);
 
     @GetMapping("/status/{code}")
     LiveResponse status(@PathVariable("code") int code);

@@ -51,8 +51,8 @@ public class EchoController {
     }
 
     @GetMapping("/echo/{str}")
-    public LiveResponse echo(@PathVariable String str, HttpServletRequest request) {
-        int sleepTime = config.getSleepTime();
+    public LiveResponse echo(@PathVariable String str, @RequestParam(required = false) Integer time, HttpServletRequest request) {
+        int sleepTime = time != null && time > 0 ? time : config.getSleepTime();
         if (sleepTime > 0) {
             if (config.getRandomTime() > 0) {
                 sleepTime = sleepTime + ThreadLocalRandom.current().nextInt(config.getRandomTime());

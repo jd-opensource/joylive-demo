@@ -15,18 +15,13 @@
  */
 package com.jd.live.agent.demo.springcloud.greenwich.consumer.service;
 
-import com.jd.live.agent.demo.response.LiveResponse;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.cloud.openfeign.SpringQueryMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+public class EchoQuery {
+    private int time;
 
-@FeignClient(name = "service-provider")
-public interface FeignService {
+    public EchoQuery() {
+    }
 
-    @GetMapping("/echo/{str}")
-    LiveResponse echo(@PathVariable("str") String str, @SpringQueryMap EchoQuery query);
-
-    @GetMapping("/status/{code}")
-    LiveResponse status(@PathVariable("code") int code);
+    public EchoQuery(int time) {
+        this.time = time;
+    }
 }

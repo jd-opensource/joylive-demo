@@ -19,12 +19,14 @@ import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
+import com.jd.live.agent.demo.springcloud.greenwich.consumer.service.EchoQuery;
 import com.jd.live.agent.demo.springcloud.greenwich.consumer.service.FeignService;
 import com.jd.live.agent.demo.springcloud.greenwich.consumer.service.ReactiveService;
 import com.jd.live.agent.demo.springcloud.greenwich.consumer.service.RestService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -56,8 +58,8 @@ public class EchoController {
     }
 
     @GetMapping("/echo-feign/{str}")
-    public LiveResponse echoFeign(@PathVariable String str, HttpServletRequest request) {
-        LiveResponse response = feignService.echo(str);
+    public LiveResponse echoFeign(@PathVariable String str, @RequestParam(required = false) Integer time, HttpServletRequest request) {
+        LiveResponse response = feignService.echo(str, time != null && time > 0 ? new EchoQuery(time) : null);
         addTrace(request, response);
         return response;
     }
