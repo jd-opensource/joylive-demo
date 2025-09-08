@@ -15,13 +15,25 @@
  */
 package com.jd.live.agent.demo.springcloud.v2021.consumer.service;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class EchoQuery {
     private int time;
+    private String name;
 
     public EchoQuery() {
     }
 
     public EchoQuery(int time) {
-        this.time = time;
+        this(time, null);
     }
+
+    public EchoQuery(int time, String name) {
+        this.time = time;
+        this.name = name;
+    }
+
 }

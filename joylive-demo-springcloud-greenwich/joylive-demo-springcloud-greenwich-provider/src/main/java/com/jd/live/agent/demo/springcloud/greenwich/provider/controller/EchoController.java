@@ -35,7 +35,10 @@ public class EchoController {
     private String applicationName;
 
     @GetMapping("/echo/{str}")
-    public LiveResponse echo(@PathVariable String str, HttpServletRequest request) {
+    public LiveResponse echo(@PathVariable String str,
+                             @RequestParam(required = false) Integer time,
+                             @RequestParam(required = false) String name,
+                             HttpServletRequest request) {
         try {
             String waitTime = Optional.ofNullable(System.getenv("RESPONSE_WAIT_TIME")).orElse("2000");
             Thread.sleep(Integer.parseInt(waitTime) + ThreadLocalRandom.current().nextInt(1000));

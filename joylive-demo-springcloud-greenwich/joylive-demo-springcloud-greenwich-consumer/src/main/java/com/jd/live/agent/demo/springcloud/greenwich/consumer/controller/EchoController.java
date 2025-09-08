@@ -58,8 +58,11 @@ public class EchoController {
     }
 
     @GetMapping("/echo-feign/{str}")
-    public LiveResponse echoFeign(@PathVariable String str, @RequestParam(required = false) Integer time, HttpServletRequest request) {
-        LiveResponse response = feignService.echo(str, time != null && time > 0 ? new EchoQuery(time) : null);
+    public LiveResponse echoFeign(@PathVariable String str,
+                                  @RequestParam(required = false) Integer time,
+                                  @RequestParam(required = false) String name,
+                                  HttpServletRequest request) {
+        LiveResponse response = feignService.echo(str, new EchoQuery(time, name));
         addTrace(request, response);
         return response;
     }
