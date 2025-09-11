@@ -26,6 +26,11 @@ public class ConsumerConfig {
 
     @LoadBalanced
     @Bean
+    public RestTemplate cloudTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }

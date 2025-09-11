@@ -28,21 +28,29 @@ public class RestService implements HelloService {
     @Resource
     private RestTemplate restTemplate;
 
+    @Resource
+    private RestTemplate cloudTemplate;
+
     @Override
     public LiveResponse echo(String str) {
-        return restTemplate.getForObject("http://service-provider/echo/" + str, LiveResponse.class);
+        return cloudTemplate.getForObject("http://service-provider/echo/" + str, LiveResponse.class);
     }
 
     @Override
     public LiveResponse status(int code) {
-        return restTemplate.getForObject("http://service-provider/status/" + code, LiveResponse.class);
+        return cloudTemplate.getForObject("http://service-provider/status/" + code, LiveResponse.class);
     }
 
     public String state(int code, int time) {
-        return restTemplate.getForObject("http://service-provider/state/" + code + "/sleep/" + time, String.class);
+        return cloudTemplate.getForObject("http://service-provider/state/" + code + "/sleep/" + time, String.class);
     }
 
     public LiveResponse exception() {
-        return restTemplate.getForObject("http://service-provider/exception", LiveResponse.class);
+        return cloudTemplate.getForObject("http://service-provider/exception", LiveResponse.class);
     }
+
+    public String proxy(String url) {
+        return restTemplate.getForObject(url, String.class);
+    }
+
 }

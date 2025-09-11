@@ -22,10 +22,7 @@ import com.jd.live.agent.demo.response.LiveTransmission;
 import com.jd.live.agent.demo.springcloud.v2021.consumer.service.*;
 import com.jd.live.agent.demo.util.CpuBusyUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -108,6 +105,12 @@ public class EchoController {
         LiveResponse response = reactiveService.status(code);
         addTrace(request, response);
         return response;
+    }
+
+    @GetMapping({"/proxy-rest", "proxy"})
+    @ResponseBody
+    public String proxyRest(@RequestParam String url) {
+        return restService.proxy(url);
     }
 
     @GetMapping({"/exception"})

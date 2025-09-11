@@ -122,11 +122,13 @@ public class LiveGatewayFilter implements GlobalFilter, Ordered {
             HttpHeaders headers = request.getHeaders();
             HttpStatus status = getStatusCode();
             LiveResponse liveResponse = read(status, array);
-            try {
-                addTrace(liveResponse, headers);
-                array = objectMapper.writeValueAsBytes(liveResponse);
-                getHeaders().setContentLength(array.length);
-            } catch (Throwable ignore) {
+            if (liveResponse != null) {
+                try {
+                    addTrace(liveResponse, headers);
+                    array = objectMapper.writeValueAsBytes(liveResponse);
+                    getHeaders().setContentLength(array.length);
+                } catch (Throwable ignore) {
+                }
             }
             return array;
         }
@@ -145,7 +147,7 @@ public class LiveGatewayFilter implements GlobalFilter, Ordered {
                             ? objectMapper.readValue(array, LiveResponse.class)
                             : new LiveResponse(LiveResponse.SUCCESS, HttpStatus.OK.getReasonPhrase());
                 } catch (Throwable e) {
-                    return new LiveResponse(LiveResponse.ERROR, e.getMessage());
+                    return null;
                 }
             } else {
                 status = status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status;
