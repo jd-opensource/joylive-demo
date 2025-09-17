@@ -20,18 +20,24 @@ import com.jd.live.agent.demo.service.HelloService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.net.URI;
+
 @Service
 public class ReactiveService implements HelloService {
 
-    private final WebClient webClient;
+    private final WebClient cloudWebClient;
 
-    public ReactiveService(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://service-provider-reactive").build();
+    private final WebClient restWebClient;
+
+    public ReactiveService(WebClient.Builder cloudWebClientBuilder,
+                           WebClient.Builder restWebClientBuilder) {
+        this.cloudWebClient = cloudWebClientBuilder.baseUrl("http://service-provider-reactive").build();
+        this.restWebClient = restWebClientBuilder.build();
     }
 
     @Override
     public LiveResponse echo(String str) {
-        return webClient.get()
+        return cloudWebClient.get()
                 .uri("/echo/" + str)
                 .retrieve()
                 .bodyToMono(LiveResponse.class).block();
@@ -39,16 +45,22 @@ public class ReactiveService implements HelloService {
 
     @Override
     public LiveResponse status(int code) {
-        return webClient.get()
+        return cloudWebClient.get()
                 .uri("/status/" + code)
                 .retrieve()
                 .bodyToMono(LiveResponse.class).block();
     }
 
     public String state(int code, int time) {
-        return webClient.get()
+        return cloudWebClient.get()
                 .uri("/state/" + code + "/sleep/" + time)
                 .retrieve()
                 .bodyToMono(String.class).block();
+    }
+
+    public String proxy(String url) {
+        URI uri = URI.create(url);
+        String result = restWebClient.get().uri(uri).retrieve().bodyToMono(String.class).block();
+        return result;
     }
 }

@@ -37,7 +37,14 @@ public class ConsumerConfig {
 
     @Bean
     @LoadBalanced
-    public WebClient.Builder loadBalancedWebClientBuilder() {
+    public WebClient.Builder cloudWebClientBuilder() {
         return WebClient.builder();
+    }
+
+    @Bean
+    public WebClient.Builder restWebClientBuilder() {
+        return WebClient.builder().codecs(configurer -> {
+            configurer.defaultCodecs().maxInMemorySize(1024 * 1024); // 1MB
+        });
     }
 }

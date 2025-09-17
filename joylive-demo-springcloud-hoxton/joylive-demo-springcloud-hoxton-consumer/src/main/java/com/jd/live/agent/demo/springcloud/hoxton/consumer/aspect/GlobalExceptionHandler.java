@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
             WebClientResponseException responseException = (WebClientResponseException) e;
             body = responseException.getResponseBodyAsByteArray();
         }
-        if (body != null) {
+        if (body != null && body.length > 0) {
             try {
                 response = objectMapper.readValue(body, LiveResponse.class);
             } catch (Throwable ignore) {

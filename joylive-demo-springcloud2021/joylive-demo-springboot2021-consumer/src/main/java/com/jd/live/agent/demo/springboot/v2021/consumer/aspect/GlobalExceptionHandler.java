@@ -70,7 +70,7 @@ public class GlobalExceptionHandler {
             body = responseException.getResponseBodyAsByteArray();
             code = responseException.getRawStatusCode();
         }
-        if (body != null) {
+        if (body != null && body.length > 0) {
             try {
                 response = objectMapper.readValue(body, LiveResponse.class);
             } catch (Throwable ex) {

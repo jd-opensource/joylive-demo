@@ -113,6 +113,12 @@ public class EchoController {
         return restService.proxy(url);
     }
 
+    @GetMapping({"/proxy-reactive"})
+    @ResponseBody
+    public String proxyReactive(@RequestParam String url) {
+        return reactiveService.proxy(url);
+    }
+
     @GetMapping({"/exception"})
     public LiveResponse exception(HttpServletRequest request) {
         LiveResponse response = restService.exception();

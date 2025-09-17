@@ -66,7 +66,7 @@ public class GlobalExceptionHandler {
             int pos = message.indexOf(str);
             body = pos > 0 ? message.substring(pos + str.length()).getBytes(StandardCharsets.UTF_8) : null;
         }
-        if (body != null) {
+        if (body != null && body.length > 0) {
             try {
                 response = objectMapper.readValue(body, LiveResponse.class);
             } catch (Throwable ignore) {
