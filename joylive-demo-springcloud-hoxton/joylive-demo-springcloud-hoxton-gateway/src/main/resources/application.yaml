@@ -72,7 +72,7 @@ spring:
                 exceptions:
                   - java.io.IOException
         - id: http
-          uri: http://demo.live.local:11813/
+          uri: ${GATEWAY_FORWARD_URL:http://demo.live.local:11374/}
           predicates:
             - Path=/http/**
             - Method=GET
