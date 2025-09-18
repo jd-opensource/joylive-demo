@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.net.URI;
 
 @RestController
 public class EchoController {
@@ -41,6 +42,9 @@ public class EchoController {
 
     @Resource
     private FeignService feignService;
+
+    @Resource
+    private FeignProxyService feignProxyService;
 
     @Resource
     private ReactiveService reactiveService;
@@ -110,13 +114,19 @@ public class EchoController {
     @GetMapping({"/proxy-rest", "proxy"})
     @ResponseBody
     public String proxyRest(@RequestParam String url) {
-        return restService.proxy(url);
+        return restService.get(url);
+    }
+
+    @GetMapping("/proxy-feign")
+    @ResponseBody
+    public String proxyFeign(@RequestParam String url) {
+        return feignProxyService.get(URI.create(url));
     }
 
     @GetMapping({"/proxy-reactive"})
     @ResponseBody
     public String proxyReactive(@RequestParam String url) {
-        return reactiveService.proxy(url);
+        return reactiveService.get(url);
     }
 
     @GetMapping({"/exception"})

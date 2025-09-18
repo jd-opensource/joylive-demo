@@ -49,7 +49,7 @@ public class RestService implements HelloService {
         return cloudTemplate.getForObject("http://service-provider/exception", LiveResponse.class);
     }
 
-    public String proxy(String url) {
+    public String get(String url) {
         return restTemplate.getForObject(url, String.class);
     }
 

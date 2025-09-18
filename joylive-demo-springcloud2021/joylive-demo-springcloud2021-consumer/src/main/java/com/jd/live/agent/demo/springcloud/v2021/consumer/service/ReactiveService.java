@@ -58,7 +58,7 @@ public class ReactiveService implements HelloService {
                 .bodyToMono(String.class).block();
     }
 
-    public String proxy(String url) {
+    public String get(String url) {
         URI uri = URI.create(url);
         String result = restWebClient.get().uri(uri).retrieve().bodyToMono(String.class).block();
         return result;
