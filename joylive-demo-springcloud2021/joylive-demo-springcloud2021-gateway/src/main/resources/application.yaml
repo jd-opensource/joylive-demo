@@ -96,6 +96,13 @@ spring:
             - Method=GET
           filters:
             - StripPrefix=1
+        - id: forward
+          uri: forward:/echo
+          predicates:
+            - Path=/forward/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
       discovery:
         locator:
           enabled: true
