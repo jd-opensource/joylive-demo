@@ -62,7 +62,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.jd.live.agent.demo.springcloud.v2024.provider.SpringCloud2025Provider</mainClass>
+                    <mainClass>com.jd.live.agent.demo.springcloud.v2025.provider.SpringCloud2025Provider</mainClass>
                 </configuration>
             </plugin>
         </plugins>

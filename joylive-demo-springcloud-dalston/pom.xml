@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring.cloud.version>Dalston.SR1</spring.cloud.version>
+        <spring-cloud.version>Dalston.SR1</spring-cloud.version>
         <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <spring-boot-dependencies.version>1.5.12.RELEASE</spring-boot-dependencies.version>
     </properties>
@@ -29,7 +29,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

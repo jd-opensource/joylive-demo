@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring.cloud.version>Greenwich.SR1</spring.cloud.version>
+        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
         <spring-boot.version>2.1.13.RELEASE</spring-boot.version>
         <spring-cloud-alibaba.version>2.1.4.RELEASE</spring-cloud-alibaba.version>
         <spring-cloud-loadbalancer.version>2.1.1.RELEASE</spring-cloud-loadbalancer.version>
@@ -41,7 +41,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

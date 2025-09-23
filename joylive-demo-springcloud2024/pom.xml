@@ -13,10 +13,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring.cloud.version>2024.0.0</spring.cloud.version>
+        <spring-cloud.version>2024.0.0</spring-cloud.version>
         <spring-boot.version>3.4.1</spring-boot.version>
-        <spring-cloud-openfeign.version>4.2.0</spring-cloud-openfeign.version>
-        <spring-cloud-loadbalancer.version>4.2.0</spring-cloud-loadbalancer.version>
         <spring-cloud-nacos.version>2023.0.3.2</spring-cloud-nacos.version>
     </properties>
 
@@ -40,7 +38,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -48,16 +46,6 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
                 <version>${spring-cloud-nacos.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-openfeign</artifactId>
-                <version>${spring-cloud-openfeign.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-                <version>${spring-cloud-loadbalancer.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

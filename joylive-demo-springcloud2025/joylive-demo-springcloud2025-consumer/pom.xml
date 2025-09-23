@@ -11,10 +11,6 @@
 
     <artifactId>joylive-demo-springcloud2025-consumer</artifactId>
 
-    <properties>
-        <okhttp.version>4.12.0</okhttp.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -45,9 +41,8 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>${okhttp.version}</version>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
         </dependency>
         <dependency>
             <groupId>com.jd.live</groupId>
@@ -80,7 +75,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.jd.live.agent.demo.springcloud.v2024.consumer.SpringCloud2025Consumer</mainClass>
+                    <mainClass>com.jd.live.agent.demo.springcloud.v2025.consumer.SpringCloud2025Consumer</mainClass>
                 </configuration>
             </plugin>
         </plugins>

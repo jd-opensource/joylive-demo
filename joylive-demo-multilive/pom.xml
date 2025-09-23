@@ -12,7 +12,7 @@
     <artifactId>joylive-demo-multilive</artifactId>
 
     <properties>
-        <spring.cloud.version>2021.0.9</spring.cloud.version>
+        <spring-cloud.version>2021.0.9</spring-cloud.version>
         <spring-boot.version>2.7.18</spring-boot.version>
     </properties>
 
@@ -28,7 +28,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
