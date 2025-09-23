@@ -15,13 +15,14 @@
  */
 package com.jd.live.agent.demo.springcloud.v2025_1.consumer;
 
+import com.alibaba.cloud.nacos.endpoint.NacosDiscoveryEndpointAutoConfiguration;
 import com.alibaba.nacos.client.config.utils.SnapShotSwitch;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = NacosDiscoveryEndpointAutoConfiguration.class)
 @EnableDiscoveryClient
 @EnableFeignClients
 public class SpringCloud2025Consumer {

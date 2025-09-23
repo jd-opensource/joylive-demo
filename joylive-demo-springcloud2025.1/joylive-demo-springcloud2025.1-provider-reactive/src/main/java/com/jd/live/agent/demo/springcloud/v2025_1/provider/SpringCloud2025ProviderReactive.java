@@ -15,13 +15,14 @@
  */
 package com.jd.live.agent.demo.springcloud.v2025_1.provider;
 
+import com.alibaba.cloud.nacos.endpoint.NacosDiscoveryEndpointAutoConfiguration;
 import com.alibaba.nacos.client.config.utils.SnapShotSwitch;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(exclude = NacosDiscoveryEndpointAutoConfiguration.class)
 public class SpringCloud2025ProviderReactive {
 
     public static void main(String[] args) {

@@ -15,11 +15,12 @@
  */
 package com.jd.live.agent.demo.springcloud.v2025_1.gateway;
 
+import com.alibaba.cloud.nacos.endpoint.NacosDiscoveryEndpointAutoConfiguration;
 import com.alibaba.nacos.client.config.utils.SnapShotSwitch;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = NacosDiscoveryEndpointAutoConfiguration.class)
 public class SpringCloud2025Gateway {
 
     public static void main(String[] args) {
