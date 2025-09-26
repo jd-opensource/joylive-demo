@@ -112,6 +112,7 @@ spring:
         server-addr: ${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
         username: ${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}
         password: ${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}
+        group: ${NACOS_GROUP:${REGISTRY_GROUP:DEFAULT_GROUP}}
         namespace: ${NACOS_NAMESPACE:${REGISTRY_NAMESPACE:public}}
   profiles:
     active: http
