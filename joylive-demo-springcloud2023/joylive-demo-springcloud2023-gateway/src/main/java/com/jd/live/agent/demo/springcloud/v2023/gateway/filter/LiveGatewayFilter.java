@@ -40,6 +40,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Component
 public class LiveGatewayFilter implements GlobalFilter, Ordered {
 
@@ -98,19 +100,49 @@ public class LiveGatewayFilter implements GlobalFilter, Ordered {
         @Override
         public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
             if (body instanceof Flux) {
-                Flux<? extends DataBuffer> fluxBody = Flux.from(body);
-                return super.writeWith(fluxBody.buffer().map(dataBuffers -> {
-                    DataBufferFactory factory = bufferFactory();
-                    DataBuffer join = factory.join(dataBuffers);
-                    byte[] array = new byte[join.readableByteCount()];
-                    join.read(array);
-                    // must release the buffer
-                    DataBufferUtils.release(join);
-                    array = append(array);
-                    return factory.wrap(array);
-                }));
+                body = Flux.from(body).buffer().map(buffers -> readBody(buffers));
+            } else if (body instanceof Mono) {
+                body = Mono.from(body).map(buffers -> readBody(buffers));
             }
             return super.writeWith(body);
+        }
+
+        /**
+         * Reads content from multiple DataBuffers by joining them into a single buffer.
+         *
+         * @param buffers the list of DataBuffers to read from
+         * @return a new DataBuffer containing the joined content
+         */
+        private DataBuffer readBody(List<? extends DataBuffer> buffers) {
+            DataBufferFactory factory = bufferFactory();
+            return readBody(factory, factory.join(buffers));
+        }
+
+        /**
+         * Reads content from a DataBuffer using the default buffer factory.
+         *
+         * @param buffer the DataBuffer to read from
+         * @return a new DataBuffer containing the content
+         */
+        private DataBuffer readBody(DataBuffer buffer) {
+            return readBody(bufferFactory(), buffer);
+        }
+
+        /**
+         * Reads content from a DataBuffer using the default buffer factory.
+         *
+         * @param buffer the DataBuffer to read from
+         * @return a new DataBuffer containing the content
+         */
+        private DataBuffer readBody(DataBufferFactory factory, DataBuffer buffer) {
+            byte[] content = new byte[buffer.readableByteCount()];
+            try {
+                buffer.read(content);
+            } finally {
+                // must release the buffer
+                DataBufferUtils.release(buffer);
+            }
+            return factory.wrap(append(content));
         }
 
         /**
