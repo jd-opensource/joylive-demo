@@ -44,7 +44,7 @@ public class EchoController {
     private FeignDiscoveryService feignDiscoveryService;
 
     @Resource
-    private FeignService feignProxyService;
+    private FeignService feignService;
 
     @Resource
     private WebClientDiscoveryService webClientDiscoveryService;
@@ -58,13 +58,6 @@ public class EchoController {
     @GetMapping({"/echo-rest/{str}", "/echo/{str}"})
     public LiveResponse echoRest(@PathVariable String str, HttpServletRequest request) {
         LiveResponse response = restTemplateDiscoveryService.echo(str);
-        addTrace(request, response);
-        return response;
-    }
-
-    @GetMapping({"/echo-origin/{str}"})
-    public LiveResponse echoRestOrigin(@PathVariable String str, HttpServletRequest request) {
-        LiveResponse response = restTemplateService.echo(str);
         addTrace(request, response);
         return response;
     }
@@ -97,13 +90,6 @@ public class EchoController {
         return response;
     }
 
-    @GetMapping({"/status-origin/{code}"})
-    public LiveResponse statusRestOrigin(@PathVariable int code, HttpServletRequest request) {
-        LiveResponse response = restTemplateService.status(code);
-        addTrace(request, response);
-        return response;
-    }
-
     @GetMapping({"/status-reactive/{code}"})
     public LiveResponse statusReactive(@PathVariable int code, HttpServletRequest request) {
         LiveResponse response = webClientDiscoveryService.status(code);
@@ -114,13 +100,13 @@ public class EchoController {
     @GetMapping({"/proxy-rest", "proxy"})
     @ResponseBody
     public String proxyRest(@RequestParam String url) {
-        return restTemplateDiscoveryService.get(url);
+        return restTemplateService.get(url);
     }
 
     @GetMapping("/proxy-feign")
     @ResponseBody
     public String proxyFeign(@RequestParam String url) {
-        return feignProxyService.get(URI.create(url));
+        return feignService.get(URI.create(url));
     }
 
     @GetMapping({"/proxy-reactive"})
@@ -154,16 +140,6 @@ public class EchoController {
             time = (int) (time - cpuTime);
         }
         return restTemplateDiscoveryService.state(code, time);
-    }
-
-    @GetMapping({"/state-origin/{code}/sleep/{time}"})
-    public String stateRestOrigin(@PathVariable int code, @PathVariable int time, HttpServletRequest request) {
-        if (time > 0) {
-            long cpuTime = (long) (time * cpuPercent);
-            CpuBusyUtil.busyCompute(cpuTime);
-            time = (int) (time - cpuTime);
-        }
-        return restTemplateService.state(code, time);
     }
 
     @GetMapping({"/dynamic"})

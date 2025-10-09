@@ -26,9 +26,6 @@ import javax.annotation.Resource;
 public class RestTemplateDiscoveryService implements HelloService {
 
     @Resource
-    private RestTemplate restTemplate;
-
-    @Resource
     private RestTemplate discoveryTemplate;
 
     @Override
@@ -47,10 +44,6 @@ public class RestTemplateDiscoveryService implements HelloService {
 
     public LiveResponse exception() {
         return discoveryTemplate.getForObject("http://service-provider/exception", LiveResponse.class);
-    }
-
-    public String get(String url) {
-        return restTemplate.getForObject(url, String.class);
     }
 
 }
