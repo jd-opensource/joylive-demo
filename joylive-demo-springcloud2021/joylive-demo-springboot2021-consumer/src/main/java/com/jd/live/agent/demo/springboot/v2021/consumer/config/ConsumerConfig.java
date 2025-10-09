@@ -15,7 +15,7 @@
  */
 package com.jd.live.agent.demo.springboot.v2021.consumer.config;
 
-import com.jd.live.agent.demo.springboot.v2021.consumer.service.FeignService;
+import com.jd.live.agent.demo.springboot.v2021.consumer.service.FeignDiscoveryService;
 import feign.Feign;
 import feign.jackson.JacksonDecoder;
 import org.springframework.context.annotation.Bean;
@@ -37,10 +37,10 @@ public class ConsumerConfig {
     }
 
     @Bean
-    public FeignService feignService() {
+    public FeignDiscoveryService feignService() {
         return Feign.builder()
                 .decoder(new JacksonDecoder())
-                .target(FeignService.class, "http://service-provider");
+                .target(FeignDiscoveryService.class, "http://service-provider");
 
     }
 }

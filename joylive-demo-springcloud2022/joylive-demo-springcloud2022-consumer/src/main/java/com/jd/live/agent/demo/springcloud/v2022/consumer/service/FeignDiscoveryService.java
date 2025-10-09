@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jd.live.agent.demo.springcloud.v2021.consumer.service;
+package com.jd.live.agent.demo.springcloud.v2022.consumer.service;
 
+import com.jd.live.agent.demo.response.LiveResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import java.net.URI;
+@FeignClient(name = "service-provider")
+public interface FeignDiscoveryService {
 
-@FeignClient(name = "feign-proxy", url = "http://proxy")
-public interface FeignService {
+    @GetMapping("/echo/{str}")
+    LiveResponse echo(@PathVariable("str") String str);
 
-    @GetMapping
-    String get(URI uri);
-
+    @GetMapping("/status/{code}")
+    LiveResponse status(@PathVariable("code") int code);
 }

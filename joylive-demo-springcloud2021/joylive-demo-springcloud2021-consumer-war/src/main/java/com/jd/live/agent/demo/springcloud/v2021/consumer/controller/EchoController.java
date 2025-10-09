@@ -19,10 +19,10 @@ import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
-import com.jd.live.agent.demo.springcloud.v2021.consumer.service.FeignService;
-import com.jd.live.agent.demo.springcloud.v2021.consumer.service.NoDiscoveryRestService;
-import com.jd.live.agent.demo.springcloud.v2021.consumer.service.ReactiveService;
-import com.jd.live.agent.demo.springcloud.v2021.consumer.service.RestService;
+import com.jd.live.agent.demo.springcloud.v2021.consumer.service.FeignDiscoveryService;
+import com.jd.live.agent.demo.springcloud.v2021.consumer.service.RestTemplateService;
+import com.jd.live.agent.demo.springcloud.v2021.consumer.service.WebClientDiscoveryService;
+import com.jd.live.agent.demo.springcloud.v2021.consumer.service.RestTemplateDiscoveryService;
 import com.jd.live.agent.demo.util.CpuBusyUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,79 +42,79 @@ public class EchoController {
     private double cpuPercent;
 
     @Resource
-    private RestService restService;
+    private RestTemplateDiscoveryService restTemplateDiscoveryService;
 
     @Resource
-    private FeignService feignService;
+    private FeignDiscoveryService feignDiscoveryService;
 
     @Resource
-    private ReactiveService reactiveService;
+    private WebClientDiscoveryService webClientDiscoveryService;
 
     @Resource
-    private NoDiscoveryRestService noDiscoveryRestService;
+    private RestTemplateService restTemplateService;
 
     @Value("${dynamic.responseValue:defaultValue}")
     private String responseValue;
 
     @GetMapping({"/echo-rest/{str}", "/echo/{str}"})
     public LiveResponse echoRest(@PathVariable String str, HttpServletRequest request) {
-        LiveResponse response = restService.echo(str);
+        LiveResponse response = restTemplateDiscoveryService.echo(str);
         addTrace(request, response);
         return response;
     }
 
     @GetMapping({"/echo-origin/{str}"})
     public LiveResponse echoRestOrigin(@PathVariable String str, HttpServletRequest request) {
-        LiveResponse response = noDiscoveryRestService.echo(str);
+        LiveResponse response = restTemplateService.echo(str);
         addTrace(request, response);
         return response;
     }
 
     @GetMapping("/echo-feign/{str}")
     public LiveResponse echoFeign(@PathVariable String str, HttpServletRequest request) {
-        LiveResponse response = feignService.echo(str);
+        LiveResponse response = feignDiscoveryService.echo(str);
         addTrace(request, response);
         return response;
     }
 
     @GetMapping({"/echo-reactive/{str}"})
     public LiveResponse echoReactive(@PathVariable String str, HttpServletRequest request) {
-        LiveResponse response = reactiveService.echo(str);
+        LiveResponse response = webClientDiscoveryService.echo(str);
         addTrace(request, response);
         return response;
     }
 
     @GetMapping("/status-feign/{code}")
     public LiveResponse statusFeign(@PathVariable int code, HttpServletRequest request) {
-        LiveResponse response = feignService.status(code);
+        LiveResponse response = feignDiscoveryService.status(code);
         addTrace(request, response);
         return response;
     }
 
     @GetMapping({"/status-rest/{code}"})
     public LiveResponse statusRest(@PathVariable int code, HttpServletRequest request) {
-        LiveResponse response = restService.status(code);
+        LiveResponse response = restTemplateDiscoveryService.status(code);
         addTrace(request, response);
         return response;
     }
 
     @GetMapping({"/status-origin/{code}"})
     public LiveResponse statusRestOrigin(@PathVariable int code, HttpServletRequest request) {
-        LiveResponse response = noDiscoveryRestService.status(code);
+        LiveResponse response = restTemplateService.status(code);
         addTrace(request, response);
         return response;
     }
 
     @GetMapping({"/status-reactive/{code}"})
     public LiveResponse statusReactive(@PathVariable int code, HttpServletRequest request) {
-        LiveResponse response = reactiveService.status(code);
+        LiveResponse response = webClientDiscoveryService.status(code);
         addTrace(request, response);
         return response;
     }
 
     @GetMapping({"/exception"})
     public LiveResponse exception(HttpServletRequest request) {
-        LiveResponse response = restService.exception();
+        LiveResponse response = restTemplateDiscoveryService.exception();
         addTrace(request, response);
         return response;
     }
@@ -126,7 +126,7 @@ public class EchoController {
             CpuBusyUtil.busyCompute(cpuTime);
             time = (int) (time - cpuTime);
         }
-        return feignService.state(code, time);
+        return feignDiscoveryService.state(code, time);
     }
 
     @GetMapping({"/state-rest/{code}/sleep/{time}", "/state/{code}/sleep/{time}"})
@@ -136,7 +136,7 @@ public class EchoController {
             CpuBusyUtil.busyCompute(cpuTime);
             time = (int) (time - cpuTime);
         }
-        return restService.state(code, time);
+        return restTemplateDiscoveryService.state(code, time);
     }
 
     @GetMapping({"/state-origin/{code}/sleep/{time}"})
@@ -146,7 +146,7 @@ public class EchoController {
             CpuBusyUtil.busyCompute(cpuTime);
             time = (int) (time - cpuTime);
         }
-        return noDiscoveryRestService.state(code, time);
+        return restTemplateService.state(code, time);
     }
 
     @GetMapping({"/dynamic"})

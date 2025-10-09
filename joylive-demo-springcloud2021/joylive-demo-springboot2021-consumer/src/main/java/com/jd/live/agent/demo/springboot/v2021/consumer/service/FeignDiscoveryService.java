@@ -13,17 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jd.live.agent.demo.springcloud.v2021.consumer.service;
+package com.jd.live.agent.demo.springboot.v2021.consumer.service;
 
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import com.jd.live.agent.demo.response.LiveResponse;
+import feign.Param;
+import feign.RequestLine;
 
-import java.net.URI;
+public interface FeignDiscoveryService {
 
-@FeignClient(name = "feign-proxy", url = "http://proxy")
-public interface FeignService {
+    @RequestLine("GET /echo/{str}")
+    LiveResponse echo(@Param("str") String str);
 
-    @GetMapping
-    String get(URI uri);
+    @RequestLine("GET /status/{code}")
+    LiveResponse status(@Param("code") int code);
+
+    @RequestLine("GET /state/{code}/sleep/{time}")
+    String state(@Param("code") int code, @Param("time") int time);
 
 }
