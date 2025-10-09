@@ -13,9 +13,9 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring-cloud.version>2025.1.0-M2</spring-cloud.version>
+        <spring-cloud.version>2025.1.0-M3</spring-cloud.version>
         <!-- 4.0.0-M3 is not compatible with spring-cloud 2025.1.0-M2 -->
-        <spring-boot.version>4.0.0-M2</spring-boot.version>
+        <spring-boot.version>4.0.0-M3</spring-boot.version>
         <spring-cloud-nacos.version>2025.0.0.0-preview</spring-cloud-nacos.version>
     </properties>
 
