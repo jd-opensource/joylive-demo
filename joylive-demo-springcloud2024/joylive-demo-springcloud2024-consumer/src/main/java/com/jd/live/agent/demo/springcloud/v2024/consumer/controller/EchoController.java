@@ -19,17 +19,12 @@ import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
-import com.jd.live.agent.demo.springcloud.v2024.consumer.service.FeignDiscoveryService;
-import com.jd.live.agent.demo.springcloud.v2024.consumer.service.RestClientDiscoveryService;
-import com.jd.live.agent.demo.springcloud.v2024.consumer.service.RestTemplateDiscoveryService;
-import com.jd.live.agent.demo.springcloud.v2024.consumer.service.WebClientDiscoveryService;
+import com.jd.live.agent.demo.springcloud.v2024.consumer.service.*;
 import com.jd.live.agent.demo.util.CpuBusyUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class EchoController {
@@ -44,7 +39,13 @@ public class EchoController {
     private RestTemplateDiscoveryService restTemplateDiscoveryService;
 
     @Resource
+    private RestTemplateService restTemplateService;
+
+    @Resource
     private RestClientDiscoveryService restClientDiscoveryService;
+
+    @Resource
+    private RestClientService restClientService;
 
     @Resource
     private FeignDiscoveryService feignDiscoveryService;
@@ -109,6 +110,18 @@ public class EchoController {
         LiveResponse response = webClientDiscoveryService.status(code);
         addTrace(request, response);
         return response;
+    }
+
+    @GetMapping({"/proxy-rest", "proxy"})
+    @ResponseBody
+    public String proxyRest(@RequestParam String url) {
+        return restTemplateService.get(url);
+    }
+
+    @GetMapping("/proxy-rest-client")
+    @ResponseBody
+    public String proxyRestClient(@RequestParam String url) {
+        return restClientService.get(url);
     }
 
     @GetMapping({"/exception"})

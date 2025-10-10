@@ -30,6 +30,11 @@ public class ConsumerConfig {
 
     @LoadBalanced
     @Bean
+    public RestTemplate discoveryTemplate() {
+        return new RestTemplate();
+    }
+
+    @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
@@ -47,12 +52,17 @@ public class ConsumerConfig {
 
     @Bean
     @LoadBalanced
-    public WebClient.Builder loadBalancedWebClientBuilder() {
+    public WebClient.Builder discoveryWebClientBuilder() {
         return WebClient.builder();
     }
 
     @Bean
     @LoadBalanced
+    public RestClient.Builder discoveryRestClientBuilder() {
+        return RestClient.builder();
+    }
+
+    @Bean
     public RestClient.Builder restClientBuilder() {
         return RestClient.builder();
     }

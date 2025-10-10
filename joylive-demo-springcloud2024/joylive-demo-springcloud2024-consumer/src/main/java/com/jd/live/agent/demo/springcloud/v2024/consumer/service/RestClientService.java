@@ -15,34 +15,19 @@
  */
 package com.jd.live.agent.demo.springcloud.v2024.consumer.service;
 
-import com.jd.live.agent.demo.response.LiveResponse;
-import com.jd.live.agent.demo.service.HelloService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 @Service
-public class RestClientDiscoveryService implements HelloService {
+public class RestClientService {
 
     private final RestClient restClient;
 
-    public RestClientDiscoveryService(RestClient.Builder discoveryRestClientBuilder) {
-        this.restClient = discoveryRestClientBuilder.baseUrl("http://service-provider").build();
+    public RestClientService(RestClient.Builder restClientBuilder) {
+        this.restClient = restClientBuilder.build();
     }
 
-    @Override
-    public LiveResponse echo(String str) {
-        return restClient.get()
-                .uri("/echo/" + str)
-                .retrieve()
-                .body(LiveResponse.class);
+    public String get(String url) {
+        return restClient.get().uri(url).retrieve().body(String.class);
     }
-
-    @Override
-    public LiveResponse status(int code) {
-        return restClient.get()
-                .uri("/status/" + code)
-                .retrieve()
-                .body(LiveResponse.class);
-    }
-
 }

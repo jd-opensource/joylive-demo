@@ -25,8 +25,8 @@ public class WebClientDiscoveryService implements HelloService {
 
     private final WebClient webClient;
 
-    public WebClientDiscoveryService(WebClient.Builder builder) {
-        this.webClient = builder.baseUrl("http://service-provider-reactive").build();
+    public WebClientDiscoveryService(WebClient.Builder discoveryWebClientBuilder) {
+        this.webClient = discoveryWebClientBuilder.baseUrl("http://service-provider-reactive").build();
     }
 
     @Override

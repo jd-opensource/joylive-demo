@@ -25,23 +25,23 @@ import org.springframework.web.client.RestTemplate;
 public class RestTemplateDiscoveryService implements HelloService {
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate discoveryTemplate;
 
     @Override
     public LiveResponse echo(String str) {
-        return restTemplate.getForObject("http://service-provider/echo/" + str, LiveResponse.class);
+        return discoveryTemplate.getForObject("http://service-provider/echo/" + str, LiveResponse.class);
     }
 
     @Override
     public LiveResponse status(int code) {
-        return restTemplate.getForObject("http://service-provider/status/" + code, LiveResponse.class);
+        return discoveryTemplate.getForObject("http://service-provider/status/" + code, LiveResponse.class);
     }
 
     public String state(int code, int time) {
-        return restTemplate.getForObject("http://service-provider/state/" + code + "/sleep/" + time, String.class);
+        return discoveryTemplate.getForObject("http://service-provider/state/" + code + "/sleep/" + time, String.class);
     }
 
     public LiveResponse exception() {
-        return restTemplate.getForObject("http://service-provider/exception", LiveResponse.class);
+        return discoveryTemplate.getForObject("http://service-provider/exception", LiveResponse.class);
     }
 }
