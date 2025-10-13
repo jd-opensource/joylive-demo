@@ -43,6 +43,7 @@ dubbo:
       migration: ${DUBBO_MIGRATION:FORCE_APPLICATION}
     qos-port: ${DUBBO_QOS_PORT:${random.int[22222,25555]}}
     enable-file-cache: false
+    serialize-check-status: DISABLE
   registry:
     id: zookeeper-registry
     address: zookeeper://${ZOOKEEPER_ADDRESS}

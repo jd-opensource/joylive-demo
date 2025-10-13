@@ -71,6 +71,27 @@ spring:
                   - POST
                 exceptions:
                   - java.io.IOException
+        - id: dubbo3-consumer
+          uri: lb://dubbo3-consumer
+          predicates:
+            - Path=/dubbo3-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+        - id: dubbo2-consumer
+          uri: lb://dubbo2-consumer
+          predicates:
+            - Path=/dubbo2-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+        - id: sofarpc-consumer
+          uri: lb://sofarpc-consumer
+          predicates:
+            - Path=/sofarpc-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
         - id: http
           uri: ${GATEWAY_FORWARD_URL:http://demo.live.local:11374/}
           predicates:

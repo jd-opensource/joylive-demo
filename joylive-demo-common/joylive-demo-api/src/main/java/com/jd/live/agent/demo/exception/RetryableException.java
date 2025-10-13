@@ -18,18 +18,19 @@ package com.jd.live.agent.demo.exception;
 public class RetryableException extends RuntimeException {
 
     public RetryableException() {
+        super("Retryable Exception", null, false, false);
     }
 
     public RetryableException(String message) {
-        super(message);
+        super(message, null, false, false);
     }
 
     public RetryableException(String message, Throwable cause) {
-        super(message, cause);
+        super(message, cause, false, false);
     }
 
     public RetryableException(Throwable cause) {
-        super(cause);
+        super(cause == null ? null : cause.getMessage(), cause, false, false);
     }
 
     public RetryableException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {

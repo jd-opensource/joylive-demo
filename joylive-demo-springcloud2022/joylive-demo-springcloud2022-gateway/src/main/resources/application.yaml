@@ -39,13 +39,6 @@ spring:
             - Method=GET
           filters:
             - StripPrefix=1
-        - id: dubbo3-consumer
-          uri: lb://dubbo3-consumer
-          predicates:
-            - Path=/dubbo3-consumer/**
-            - Method=GET
-          filters:
-            - StripPrefix=1
         - id: provider-reactive
           uri: lb://service-provider-reactive
           predicates:
@@ -61,16 +54,28 @@ spring:
             - Method=GET
           filters:
             - StripPrefix=1
-            - name: Retry
-              args:
-                retries: 1
-                series:
-                  - SERVER_ERROR
-                methods:
-                  - GET
-                  - POST
-                exceptions:
-                  - java.io.IOException
+            - Retry=5
+        - id: dubbo3-consumer
+          uri: lb://dubbo3-consumer
+          predicates:
+            - Path=/dubbo3-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+        - id: dubbo2-consumer
+          uri: lb://dubbo2-consumer
+          predicates:
+            - Path=/dubbo2-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+        - id: sofarpc-consumer
+          uri: lb://sofarpc-consumer
+          predicates:
+            - Path=/sofarpc-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
         - id: http
           uri: ${GATEWAY_FORWARD_URL:http://demo.live.local:11374/}
           predicates:

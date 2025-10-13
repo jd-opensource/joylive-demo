@@ -44,6 +44,7 @@ dubbo:
       migration: FORCE_APPLICATION
     qos-port: ${DUBBO_QOS_PORT:${random.int[22222,25555]}}
     enable-file-cache: false
+    serialize-check-status: DISABLE
   registry:
     id: nacos-registry
     address: nacos://${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}:${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}@${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}

@@ -22,23 +22,25 @@ import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
-import com.jd.live.agent.demo.service.SleepService;
+import com.jd.live.agent.demo.service.AsyncSleepService;
 import com.jd.live.agent.demo.util.CpuBusyUtil;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicLong;
 
-@DubboService(group = "DEFAULT_GROUP", interfaceClass = SleepService.class)
-public class Dubbo27Service implements SleepService {
+@DubboService(group = "DEFAULT_GROUP", interfaceClass = AsyncSleepService.class)
+public class Dubbo27Service implements AsyncSleepService {
+
+    private final static AtomicLong COUNTER = new AtomicLong(0);
 
     private final String applicationName;
 
     private final EchoConfig config;
-
-    @Value("${echo.suffix}")
-    private String echoSuffix;
 
     @Value("${mock.cpuPercent:0.2}")
     private double cpuPercent;
@@ -50,13 +52,57 @@ public class Dubbo27Service implements SleepService {
 
     @Override
     public LiveResponse echo(String str) {
-        int sleepTime = config.getSleepTime();
-        if (sleepTime > 0) {
-            if (config.getRandomTime() > 0) {
-                sleepTime = sleepTime + ThreadLocalRandom.current().nextInt(config.getRandomTime());
-            }
-            CpuBusyUtil.busyCompute(sleepTime);
+        sleep(config.getSleepTime(), config.getRandomTime());
+        return doEcho(str);
+    }
+
+    @Override
+    public LiveResponse status(int code) {
+        sleep(config.getSleepTime(), config.getRandomTime());
+        return doStatus(code);
+    }
+
+    @Override
+    public LiveResponse sleep(int millis) {
+        sleep(millis, 0);
+        return createResponse(null);
+    }
+
+    @Override
+    public CompletableFuture<LiveResponse> echoAsync(String str) {
+        return async(() -> doEcho(str));
+    }
+
+    @Override
+    public CompletableFuture<LiveResponse> statusAsync(int code) {
+        return async(() -> doStatus(code));
+    }
+
+    private <T> CompletableFuture<T> async(Callable<T> callable) {
+        CompletableFuture<T> future = new CompletableFuture<>();
+        if (config.getSleepTime() > 0) {
+            Thread thread = new Thread(() -> {
+                sleep(config.getSleepTime(), config.getRandomTime());
+                call(future, callable);
+            });
+            thread.setDaemon(true);
+            thread.setName("service-async-" + COUNTER.incrementAndGet());
+            thread.start();
+        } else {
+            call(future, callable);
         }
+        return future;
+    }
+
+    private <T> void call(CompletableFuture<T> future, Callable<T> callable) {
+        try {
+            future.complete(callable.call());
+        } catch (Exception e) {
+            future.completeExceptionally(e);
+        }
+    }
+
+    private LiveResponse doEcho(String str) {
         String value = str + "-sleepTime-" + config.getSleepTime() + "-cpuPercent-" + cpuPercent;
         String suffix = config.getSuffix();
         if (suffix != null && !suffix.isEmpty()) {
@@ -65,8 +111,7 @@ public class Dubbo27Service implements SleepService {
         return createResponse(value);
     }
 
-    @Override
-    public LiveResponse status(int code) {
+    private LiveResponse doStatus(int code) {
         if (code == 600) {
             if (ThreadLocalRandom.current().nextInt(2) == 0) {
                 throw new RetryableException("Code:" + code);
@@ -77,12 +122,13 @@ public class Dubbo27Service implements SleepService {
         return createResponse(code);
     }
 
-    @Override
-    public LiveResponse sleep(int millis) {
-        if (millis > 0) {
-            CpuBusyUtil.busyCompute(millis);
+    private void sleep(int time, int random) {
+        if (time > 0) {
+            if (random > 0) {
+                time = time + ThreadLocalRandom.current().nextInt(random);
+            }
+            CpuBusyUtil.busyCompute(time);
         }
-        return createResponse(null);
     }
 
     private LiveResponse createResponse(Object data) {

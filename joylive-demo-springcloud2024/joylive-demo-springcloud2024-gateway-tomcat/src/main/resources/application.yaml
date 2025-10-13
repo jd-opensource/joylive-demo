@@ -55,8 +55,29 @@ spring:
           filters:
             - StripPrefix=1
             - Retry=5
+        - id: dubbo3-consumer
+          uri: lb://dubbo3-consumer
+          predicates:
+            - Path=/dubbo3-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+        - id: dubbo2-consumer
+          uri: lb://dubbo2-consumer
+          predicates:
+            - Path=/dubbo2-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+        - id: sofarpc-consumer
+          uri: lb://sofarpc-consumer
+          predicates:
+            - Path=/sofarpc-consumer/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
         - id: http
-          uri: http://demo.live.local:11813/
+          uri: ${GATEWAY_FORWARD_URL:http://demo.live.local:11374/}
           predicates:
             - Path=/http/**
             - Method=GET
@@ -65,9 +86,6 @@ spring:
       discovery:
         locator:
           enabled: true
-      global-filter:
-        websocket-routing:
-          enabled: false
     nacos:
       discovery:
         service: ${APPLICATION_SERVICE_NAME:${APPLICATION_NAME:spring-gateway}}

@@ -20,9 +20,8 @@ import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
-import com.jd.live.agent.demo.service.SleepService;
+import com.jd.live.agent.demo.service.AsyncSleepService;
 import org.apache.dubbo.config.annotation.DubboReference;
-import org.apache.dubbo.config.annotation.Method;
 import org.apache.dubbo.rpc.service.GenericService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class EchoController {
@@ -45,15 +44,15 @@ public class EchoController {
     @DubboReference(providedBy = "app-dubbo2-provider",
             group = "DEFAULT_GROUP",
             check = false,
-            methods = {@Method(name = "echo", timeout = 60000)})
-    private SleepService sleepService;
+            timeout = 10000)
+    private AsyncSleepService sleepService;
 
-    @DubboReference(interfaceName = "com.jd.live.agent.demo.service.SleepService",
+    @DubboReference(interfaceName = "com.jd.live.agent.demo.service.AsyncSleepService",
             providedBy = "app-dubbo2-provider",
             group = "DEFAULT_GROUP",
             check = false,
             generic = true,
-            methods = {@Method(name = "echo", timeout = 60000)})
+            timeout = 10000)
     private GenericService genericService;
 
     @GetMapping("/echo/{str}")
@@ -64,12 +63,37 @@ public class EchoController {
     }
 
     @SuppressWarnings("unchecked")
+    @GetMapping("/echo-async/{str}")
+    public LiveResponse echoAsync(@PathVariable String str, HttpServletRequest request) throws Exception {
+        CompletableFuture<LiveResponse> future = sleepService.echoAsync(str);
+        LiveResponse response = future.get();
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
     @GetMapping("/echo-generic/{str}")
     public LiveResponse echoGeneric(@PathVariable String str, HttpServletRequest request) {
-        Map<String, Object> result = (Map<String, Object>) genericService.$invoke("echo",
+        Object result = genericService.$invoke("echo",
                 new String[]{"java.lang.String"},
                 new Object[]{str});
-        LiveResponse response = objectMapper.convertValue(result, LiveResponse.class);
+        LiveResponse response = result instanceof LiveResponse
+                ? (LiveResponse) result
+                : objectMapper.convertValue(result, LiveResponse.class);
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
+    @GetMapping("/echo-generic-async/{str}")
+    public LiveResponse echoGenericAsync(@PathVariable String str, HttpServletRequest request) throws Exception {
+        CompletableFuture<Object> future = genericService.$invokeAsync("echo",
+                new String[]{"java.lang.String"},
+                new Object[]{str});
+        Object result = future.get();
+        LiveResponse response = result instanceof LiveResponse
+                ? (LiveResponse) result
+                : objectMapper.convertValue(result, LiveResponse.class);
         addTrace(request, response);
         return response;
     }
@@ -77,6 +101,41 @@ public class EchoController {
     @GetMapping("/status/{code}")
     public LiveResponse status(@PathVariable int code, HttpServletRequest request) {
         LiveResponse response = sleepService.status(code);
+        addTrace(request, response);
+        return response;
+    }
+
+    @GetMapping("/status-async/{code}")
+    public LiveResponse statusAsync(@PathVariable int code, HttpServletRequest request) throws Exception {
+        CompletableFuture<LiveResponse> future = sleepService.statusAsync(code);
+        LiveResponse response = future.get();
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
+    @GetMapping("/status-generic/{code}")
+    public LiveResponse echoGeneric(@PathVariable int code, HttpServletRequest request) {
+        Object result = genericService.$invoke("status",
+                new String[]{"int"},
+                new Object[]{code});
+        LiveResponse response = result instanceof LiveResponse
+                ? (LiveResponse) result
+                : objectMapper.convertValue(result, LiveResponse.class);
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
+    @GetMapping("/status-generic-async/{code}")
+    public LiveResponse echoGenericAsync(@PathVariable int code, HttpServletRequest request) throws Exception {
+        CompletableFuture<Object> future = genericService.$invokeAsync("status",
+                new String[]{"int"},
+                new Object[]{code});
+        Object result = future.get();
+        LiveResponse response = result instanceof LiveResponse
+                ? (LiveResponse) result
+                : objectMapper.convertValue(result, LiveResponse.class);
         addTrace(request, response);
         return response;
     }
