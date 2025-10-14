@@ -31,15 +31,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * SofaRpcProviderService
  *
  * @author yuanjinzhong
  */
-@SofaService(interfaceType = SleepService.class, bindings = {@SofaServiceBinding(bindingType = "bolt")})
+@SofaService(interfaceType = SleepService.class, bindings = {@SofaServiceBinding(bindingType = "bolt", serializeType = "hessian2")})
 @Service
-public class SofaRpcProviderService implements SleepService {
+public class SofaRpcService implements SleepService {
+
+    private final static AtomicLong COUNTER = new AtomicLong(0);
 
     private final String applicationName;
 
@@ -51,20 +54,30 @@ public class SofaRpcProviderService implements SleepService {
     @Value("${mock.cpuPercent:0.2}")
     private double cpuPercent;
 
-    public SofaRpcProviderService(@Value("${spring.application.name}") String applicationName, EchoConfig config) {
+    public SofaRpcService(@Value("${spring.application.name}") String applicationName, EchoConfig config) {
         this.applicationName = applicationName;
         this.config = config;
     }
 
     @Override
     public LiveResponse echo(String str) {
-        int sleepTime = config.getSleepTime();
-        if (sleepTime > 0) {
-            if (config.getRandomTime() > 0) {
-                sleepTime = sleepTime + ThreadLocalRandom.current().nextInt(config.getRandomTime());
-            }
-            CpuBusyUtil.busyCompute(sleepTime);
-        }
+        sleep(config.getSleepTime(), config.getRandomTime());
+        return doEcho(str);
+    }
+
+    @Override
+    public LiveResponse status(int code) {
+        sleep(config.getSleepTime(), config.getRandomTime());
+        return doStatus(code);
+    }
+
+    @Override
+    public LiveResponse sleep(int millis) {
+        sleep(millis, 0);
+        return createResponse(null);
+    }
+
+    private LiveResponse doEcho(String str) {
         String value = str + "-sleepTime-" + config.getSleepTime() + "-cpuPercent-" + cpuPercent;
         String suffix = config.getSuffix();
         if (suffix != null && !suffix.isEmpty()) {
@@ -73,8 +86,7 @@ public class SofaRpcProviderService implements SleepService {
         return createResponse(value);
     }
 
-    @Override
-    public LiveResponse status(int code) {
+    private LiveResponse doStatus(int code) {
         if (code == 600) {
             if (ThreadLocalRandom.current().nextInt(2) == 0) {
                 throw new RetryableException("Code:" + code);
@@ -85,12 +97,13 @@ public class SofaRpcProviderService implements SleepService {
         return createResponse(code);
     }
 
-    @Override
-    public LiveResponse sleep(int millis) {
-        if (millis > 0) {
-            CpuBusyUtil.busyCompute(millis);
+    private void sleep(int time, int random) {
+        if (time > 0) {
+            if (random > 0) {
+                time = time + ThreadLocalRandom.current().nextInt(random);
+            }
+            CpuBusyUtil.busyCompute(time);
         }
-        return createResponse(null);
     }
 
     private LiveResponse createResponse(Object data) {

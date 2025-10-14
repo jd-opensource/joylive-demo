@@ -25,6 +25,11 @@ com:
     sofa:
       rpc:
         registry-address: nacos://${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}?username=${NACOS_USERNAME:${REGISTRY_USERNAME:nacos}}&password=${NACOS_PASSWORD:${REGISTRY_PASSWORD:nacos}}&namespace=${NACOS_NAMESPACE}
+sofa:
+  boot:
+    reference:
+      check:
+        enabled: false
 
 logging:
   level:

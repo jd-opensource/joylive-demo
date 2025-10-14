@@ -16,8 +16,7 @@
 package com.jd.live.agent.demo.sofarpc.consumer.controller;
 
 import com.alipay.sofa.rpc.api.GenericService;
-import com.alipay.sofa.runtime.api.annotation.SofaReference;
-import com.alipay.sofa.runtime.api.annotation.SofaReferenceBinding;
+import com.alipay.sofa.rpc.api.future.SofaResponseFuture;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
@@ -31,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import java.util.concurrent.Future;
 
 @RestController
 public class EchoController {
@@ -42,12 +41,17 @@ public class EchoController {
     @Value("${spring.application.name}")
     private String applicationName;
 
-    @SofaReference(interfaceType = SleepService.class, jvmFirst = false,
-            binding = @SofaReferenceBinding(bindingType = "bolt"))
+    @Resource
     private SleepService sleepService;
 
     @Resource
+    private SleepService asyncSleepService;
+
+    @Resource
     private GenericService genericService;
+
+    @Resource
+    private GenericService asyncGenericService;
 
     @GetMapping("/echo/{str}")
     public LiveResponse echo(@PathVariable String str, HttpServletRequest request) {
@@ -57,19 +61,105 @@ public class EchoController {
     }
 
     @SuppressWarnings("unchecked")
+    @GetMapping("/echo-async/{str}")
+    public LiveResponse echoAsync(@PathVariable String str, HttpServletRequest request) throws Exception {
+        asyncSleepService.echo(str);
+        Future<LiveResponse> future = SofaResponseFuture.getFuture();
+        LiveResponse response = future.get();
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
     @GetMapping("/echo-generic/{str}")
     public LiveResponse echoGeneric(@PathVariable String str, HttpServletRequest request) {
-        Map<String, Object> result = (Map<String, Object>) genericService.$invoke("echo",
+        Object result = genericService.$invoke("echo",
                 new String[]{"java.lang.String"},
                 new Object[]{str});
-        LiveResponse response = objectMapper.convertValue(result, LiveResponse.class);
+        LiveResponse response = result instanceof LiveResponse
+                ? (LiveResponse) result
+                : objectMapper.convertValue(result, LiveResponse.class);
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
+    @GetMapping("/echo-generic-async/{str}")
+    public LiveResponse echoGenericAsync(@PathVariable String str, HttpServletRequest request) throws Exception {
+        asyncGenericService.$invoke("echo",
+                new String[]{"java.lang.String"},
+                new Object[]{str});
+        Future<Object> future = SofaResponseFuture.getFuture();
+        Object result = future.get();
+        LiveResponse response = result instanceof LiveResponse
+                ? (LiveResponse) result
+                : objectMapper.convertValue(result, LiveResponse.class);
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
+    @GetMapping("/echo-generic-invoke/{str}")
+    public LiveResponse echoGenericInvoke(@PathVariable String str, HttpServletRequest request) throws Exception {
+        LiveResponse response = genericService.$genericInvoke("echo",
+                new String[]{"java.lang.String"},
+                new Object[]{str},
+                LiveResponse.class);
         addTrace(request, response);
         return response;
     }
 
     @GetMapping("/status/{code}")
-    public LiveResponse statusF(@PathVariable int code, HttpServletRequest request) {
+    public LiveResponse status(@PathVariable int code, HttpServletRequest request) {
         LiveResponse response = sleepService.status(code);
+        addTrace(request, response);
+        return response;
+    }
+
+    @GetMapping("/status-async/{code}")
+    public LiveResponse statusAsync(@PathVariable int code, HttpServletRequest request) throws Exception {
+        asyncSleepService.status(code);
+        Future<LiveResponse> future = SofaResponseFuture.getFuture();
+        LiveResponse response = future.get();
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
+    @GetMapping("/status-generic/{code}")
+    public LiveResponse statusGeneric(@PathVariable int code, HttpServletRequest request) {
+        Object result = genericService.$invoke("status",
+                new String[]{"int"},
+                new Object[]{code});
+        LiveResponse response = result instanceof LiveResponse
+                ? (LiveResponse) result
+                : objectMapper.convertValue(result, LiveResponse.class);
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
+    @GetMapping("/status-generic-async/{code}")
+    public LiveResponse statusGenericAsync(@PathVariable int code, HttpServletRequest request) throws Exception {
+        asyncGenericService.$invoke("status",
+                new String[]{"int"},
+                new Object[]{code});
+        Future<Object> future = SofaResponseFuture.getFuture();
+        Object result = future.get();
+        LiveResponse response = result instanceof LiveResponse
+                ? (LiveResponse) result
+                : objectMapper.convertValue(result, LiveResponse.class);
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
+    @GetMapping("/status-generic-invoke/{code}")
+    public LiveResponse statusGenericInvoke(@PathVariable int code, HttpServletRequest request) throws Exception {
+        LiveResponse response = genericService.$genericInvoke("status",
+                new String[]{"int"},
+                new Object[]{code},
+                LiveResponse.class);
         addTrace(request, response);
         return response;
     }

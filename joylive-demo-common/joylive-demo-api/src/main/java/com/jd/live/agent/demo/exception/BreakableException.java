@@ -17,6 +17,8 @@ package com.jd.live.agent.demo.exception;
 
 public class BreakableException extends RuntimeException {
 
+    private static final long serialVersionUID = 1L;
+
     public BreakableException() {
         super("Retryable Exception", null, false, false);
     }
