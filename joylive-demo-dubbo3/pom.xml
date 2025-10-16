@@ -14,6 +14,7 @@
     <properties>
         <apache-dubbo.version>3.2.11</apache-dubbo.version>
         <spring-cloud.version>2021.0.9</spring-cloud.version>
+        <spring-cloud-nacos.version>2021.0.6.0</spring-cloud-nacos.version>
         <spring-boot.version>2.7.18</spring-boot.version>
         <zookeeper.version>3.9.3</zookeeper.version>
     </properties>
@@ -40,6 +41,11 @@
                 <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${spring-cloud-nacos.version}</version>
             </dependency>
             <!-- Dubbo -->
             <dependency>
