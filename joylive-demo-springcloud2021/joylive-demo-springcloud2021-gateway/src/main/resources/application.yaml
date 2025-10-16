@@ -105,7 +105,7 @@ spring:
             - StripPrefix=1
       discovery:
         locator:
-          enabled: true
+          enabled: false
     nacos:
       discovery:
         service: ${APPLICATION_SERVICE_NAME:${APPLICATION_NAME:spring-gateway}}

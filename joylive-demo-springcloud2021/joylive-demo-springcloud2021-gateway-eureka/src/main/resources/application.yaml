@@ -94,7 +94,7 @@ spring:
             - StripPrefix=1
       discovery:
         locator:
-          enabled: true
+          enabled: false
 eureka:
   client:
     register-with-eureka: true

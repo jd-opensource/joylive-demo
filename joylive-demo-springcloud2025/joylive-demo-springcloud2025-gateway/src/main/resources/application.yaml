@@ -22,7 +22,7 @@ spring:
         webflux:
           discovery:
             locator:
-              enabled: true
+              enabled: false
           routes:
             - id: rocketmq
               uri: lb://service-rocketmq

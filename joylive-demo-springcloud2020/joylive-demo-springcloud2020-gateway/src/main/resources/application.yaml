@@ -101,7 +101,7 @@ spring:
             - StripPrefix=1
       discovery:
         locator:
-          enabled: true
+          enabled: false
     nacos:
       discovery:
         server-addr: ${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
