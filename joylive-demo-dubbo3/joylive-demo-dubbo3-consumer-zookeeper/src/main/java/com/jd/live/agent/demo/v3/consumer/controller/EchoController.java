@@ -22,6 +22,7 @@ import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
 import com.jd.live.agent.demo.service.AsyncSleepService;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.apache.dubbo.rpc.RpcContext;
 import org.apache.dubbo.rpc.service.GenericService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -106,10 +107,18 @@ public class EchoController {
         return response;
     }
 
+    @GetMapping("/status-async-context/{code}")
+    public LiveResponse statusAsyncContext(@PathVariable int code, HttpServletRequest request) throws Exception {
+        CompletableFuture<LiveResponse> future = RpcContext.getServiceContext().asyncCall(() -> sleepService.status(code));
+        LiveResponse response = future.get();
+        addTrace(request, response);
+        return response;
+    }
+
     @SuppressWarnings("unchecked")
     @GetMapping("/status-generic/{code}")
-    public LiveResponse echoGeneric(@PathVariable int code, HttpServletRequest request) {
-        Object result = (Map<String, Object>) genericService.$invoke("status",
+    public LiveResponse statusGeneric(@PathVariable int code, HttpServletRequest request) {
+        Object result = genericService.$invoke("status",
                 new String[]{"int"},
                 new Object[]{code});
         LiveResponse response = result instanceof LiveResponse
@@ -121,10 +130,23 @@ public class EchoController {
 
     @SuppressWarnings("unchecked")
     @GetMapping("/status-generic-async/{code}")
-    public LiveResponse echoGenericAsync(@PathVariable int code, HttpServletRequest request) throws Exception {
+    public LiveResponse statusGenericAsync(@PathVariable int code, HttpServletRequest request) throws Exception {
         CompletableFuture<Object> future = genericService.$invokeAsync("status",
                 new String[]{"int"},
                 new Object[]{code});
+        Object result = future.get();
+        LiveResponse response = result instanceof LiveResponse
+                ? (LiveResponse) result
+                : objectMapper.convertValue(result, LiveResponse.class);
+        addTrace(request, response);
+        return response;
+    }
+
+    @SuppressWarnings("unchecked")
+    @GetMapping("/status-generic-async-context/{code}")
+    public LiveResponse statusGenericAsyncContext(@PathVariable int code, HttpServletRequest request) throws Exception {
+        CompletableFuture<Object> future = RpcContext.getServiceContext().asyncCall(
+                () -> genericService.$invoke("status", new String[]{"int"}, new Object[]{code}));
         Object result = future.get();
         LiveResponse response = result instanceof LiveResponse
                 ? (LiveResponse) result

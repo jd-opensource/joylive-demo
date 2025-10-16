@@ -115,7 +115,7 @@ public class EchoController {
 
     @SuppressWarnings("unchecked")
     @GetMapping("/status-generic/{code}")
-    public LiveResponse echoGeneric(@PathVariable int code, HttpServletRequest request) {
+    public LiveResponse statusGeneric(@PathVariable int code, HttpServletRequest request) {
         Object result = genericService.$invoke("status",
                 new String[]{"int"},
                 new Object[]{code});
@@ -128,7 +128,7 @@ public class EchoController {
 
     @SuppressWarnings("unchecked")
     @GetMapping("/status-generic-async/{code}")
-    public LiveResponse echoGenericAsync(@PathVariable int code, HttpServletRequest request) throws Exception {
+    public LiveResponse statusGenericAsync(@PathVariable int code, HttpServletRequest request) throws Exception {
         CompletableFuture<Object> future = genericService.$invokeAsync("status",
                 new String[]{"int"},
                 new Object[]{code});
