@@ -16,7 +16,7 @@
         <spring-cloud.version>2025.1.0-M3</spring-cloud.version>
         <!-- 4.0.0-M3 is not compatible with spring-cloud 2025.1.0-M2 -->
         <spring-boot.version>4.0.0-M3</spring-boot.version>
-        <spring-cloud-nacos.version>2025.0.0.0-preview</spring-cloud-nacos.version>
+        <spring-cloud-alibaba.version>2025.0.0.0-preview</spring-cloud-alibaba.version>
     </properties>
 
     <modules>
@@ -44,8 +44,15 @@
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-                <version>${spring-cloud-nacos.version}</version>
+                <version>${spring-cloud-alibaba.version}</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>logback-adapter</artifactId>

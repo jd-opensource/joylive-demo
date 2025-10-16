@@ -87,6 +87,10 @@ spring:
         locator:
           enabled: true
     nacos:
+      config:
+        server-addr: ${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}
+        import-check:
+          enabled: false
       discovery:
         service: ${APPLICATION_SERVICE_NAME:${APPLICATION_NAME:spring-gateway}}
         server-addr: ${NACOS_ADDR:${REGISTRY_INTERNAL_HOST}:${REGISTRY_INTERNAL_HTTP_PORT}}

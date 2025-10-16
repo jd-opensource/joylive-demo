@@ -15,7 +15,7 @@
     <properties>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring-boot.version>3.5.0</spring-boot.version>
-        <spring-cloud-nacos.version>2023.0.3.3</spring-cloud-nacos.version>
+        <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
     </properties>
 
     <modules>
@@ -43,8 +43,15 @@
             </dependency>
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-                <version>${spring-cloud-nacos.version}</version>
+                <version>${spring-cloud-alibaba.version}</version>
                 <exclusions>
                     <exclusion>
                         <artifactId>logback-adapter</artifactId>
