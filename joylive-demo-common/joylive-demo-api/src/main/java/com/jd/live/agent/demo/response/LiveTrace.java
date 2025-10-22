@@ -15,6 +15,7 @@
  */
 package com.jd.live.agent.demo.response;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -35,6 +36,7 @@ public class LiveTrace implements Serializable {
     public LiveTrace() {
     }
 
+    @Builder
     public LiveTrace(String service, LiveLocation location, LiveTransmission transmission) {
         this.service = service;
         this.location = location;

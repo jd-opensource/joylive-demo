@@ -15,16 +15,17 @@
  */
 package com.jd.live.agent.demo.response;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Singular;
 import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@Builder
 @ToString
 public class LiveResponse implements Serializable {
 
@@ -40,9 +41,10 @@ public class LiveResponse implements Serializable {
 
     private String message;
 
-    private List<LiveTrace> traces;
-
     private Object data;
+
+    @Singular
+    private List<LiveTrace> traces;
 
     public LiveResponse() {
     }
@@ -61,6 +63,13 @@ public class LiveResponse implements Serializable {
         this.code = code;
         this.message = message;
         this.data = data;
+    }
+
+    public LiveResponse(int code, String message, Object data, List<LiveTrace> traces) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+        this.traces = traces;
     }
 
     public LiveResponse addFirst(LiveTrace trace) {

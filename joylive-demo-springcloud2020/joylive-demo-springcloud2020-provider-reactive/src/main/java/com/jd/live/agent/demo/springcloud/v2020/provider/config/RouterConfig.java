@@ -15,18 +15,49 @@
  */
 package com.jd.live.agent.demo.springcloud.v2020.provider.config;
 
+import com.jd.live.agent.demo.response.LiveLocation;
+import com.jd.live.agent.demo.response.LiveResponse;
+import com.jd.live.agent.demo.response.LiveTrace;
+import com.jd.live.agent.demo.response.LiveTransmission;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
+import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Mono;
 
 @Configuration
 public class RouterConfig {
 
+    @Value("${spring.application.name}")
+    private String applicationName;
+
     @Bean
-    public RouterFunction<ServerResponse> staticResourceRouter() {
-        return RouterFunctions.resources("/static/**", new ClassPathResource("static/"));
+    public RouterFunction<ServerResponse> route() {
+        return RouterFunctions.route()
+                .resources("/static/**", new ClassPathResource("static/"))
+                .GET("/echo-func/{str}", request -> echoFunc(request))
+                .GET("/status-func/{code}", request -> statusFunc(request))
+                .build();
+    }
+
+    private Mono<ServerResponse> statusFunc(ServerRequest request) {
+        Integer code = Integer.valueOf(request.pathVariable("code"));
+        return ServerResponse.status(code).bodyValue(LiveResponse.builder().code(code).data(code).trace(trace(request)).build());
+    }
+
+    private Mono<ServerResponse> echoFunc(ServerRequest request) {
+        return ServerResponse.ok().bodyValue(LiveResponse.builder().code(200).data(request.pathVariable("str")).trace(trace(request)).build());
+    }
+
+    private LiveTrace trace(ServerRequest request) {
+        return LiveTrace.builder()
+                .service(applicationName)
+                .location(LiveLocation.build())
+                .transmission(LiveTransmission.build("header", name -> request.headers().firstHeader(name)))
+                .build();
     }
 }
