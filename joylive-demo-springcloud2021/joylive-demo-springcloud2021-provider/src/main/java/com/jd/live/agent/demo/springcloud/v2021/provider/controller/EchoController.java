@@ -53,7 +53,7 @@ public class EchoController {
     @GetMapping("/echo/{str}")
     public LiveResponse echo(@PathVariable String str,
                              @RequestParam(required = false) Integer time,
-                             @RequestParam(required = false) String name,
+                             @RequestParam(required = false, defaultValue = "tester") String name,
                              HttpServletRequest request) {
         int sleepTime = time != null && time > 0 ? time : config.getSleepTime();
         if (sleepTime > 0) {
@@ -62,7 +62,7 @@ public class EchoController {
             }
             CpuBusyUtil.busyCompute(sleepTime);
         }
-        String value = str + "-sleepTime-" + config.getSleepTime() + "-cpuPercent-" + cpuPercent;
+        String value = str + "-sleepTime-" + sleepTime + "-cpuPercent-" + cpuPercent + "-name-" + name;
         String suffix = config.getSuffix();
         if (suffix != null && !suffix.isEmpty()) {
             value = value + "-" + suffix;
