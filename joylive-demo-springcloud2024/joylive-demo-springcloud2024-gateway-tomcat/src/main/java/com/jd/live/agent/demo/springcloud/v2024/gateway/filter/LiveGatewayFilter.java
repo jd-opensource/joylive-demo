@@ -29,7 +29,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
-import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -183,7 +182,13 @@ public class LiveGatewayFilter implements GlobalFilter, Ordered {
                 }
             } else {
                 status = status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status;
-                if (array.length > 0) {
+                if (array.length > 0 && array[0] == '{' && array[array.length - 1] == '}') {
+                    try {
+                        return objectMapper.readValue(array, LiveResponse.class);
+                    } catch (Exception e) {
+                        return new LiveResponse(LiveResponse.ERROR, new String(array));
+                    }
+                } else if (array.length > 0) {
                     return new LiveResponse(status.value(), new String(array));
                 } else if (status instanceof HttpStatus) {
                     return new LiveResponse(status.value(), ((HttpStatus) status).getReasonPhrase());

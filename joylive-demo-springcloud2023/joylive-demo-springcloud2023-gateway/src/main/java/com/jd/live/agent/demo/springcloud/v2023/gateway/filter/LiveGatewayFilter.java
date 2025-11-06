@@ -184,8 +184,14 @@ public class LiveGatewayFilter implements GlobalFilter, Ordered {
                 }
             } else {
                 status = status == null ? HttpStatus.INTERNAL_SERVER_ERROR : status;
-                if (array.length > 0) {
-                    return new LiveResponse(status.value(), new String(array));
+                if (array.length > 0 && array[0] == '{' && array[array.length - 1] == '}') {
+                    try {
+                        return objectMapper.readValue(array, LiveResponse.class);
+                    } catch (Exception e) {
+                        return new LiveResponse(LiveResponse.ERROR, new String(array));
+                    }
+                } else if (array.length > 0) {
+                    return new LiveResponse(LiveResponse.ERROR, new String(array));
                 } else if (status instanceof HttpStatus) {
                     return new LiveResponse(status.value(), ((HttpStatus) status).getReasonPhrase());
                 } else {
