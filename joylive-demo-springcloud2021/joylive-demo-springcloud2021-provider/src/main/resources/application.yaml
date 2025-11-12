@@ -42,3 +42,21 @@ echo:
   suffix: suffix
 mock:
   cpuPercent: ${CPU_PERCENT:0.2}
+
+# SpringDoc OpenAPI Configuration - Integrated with existing Spring Web server
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    displayRequestDuration: true
+    disable-swagger-default-url: true
+    use-root-path: true
+  group-configs:
+    - group: default
+      paths-to-match: /**
+      packages-to-scan: com.jd.live.agent.demo.springcloud.v2021.provider.controller

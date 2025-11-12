@@ -21,6 +21,13 @@ import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
 import com.jd.live.agent.demo.springcloud.v2021.provider.config.EchoConfig;
 import com.jd.live.agent.demo.util.CpuBusyUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
+@Tag(name = "EchoController", description = "Echo service controller providing various testing and echo functionalities")
 public class EchoController {
 
     private final String applicationName;
@@ -51,6 +59,19 @@ public class EchoController {
     }
 
     @GetMapping("/echo/{str}")
+    @Operation(
+            summary = "Echo method",
+            description = "Receives string parameter and returns echo response, supports custom processing time and name parameters",
+            parameters = {
+                    @Parameter(name = "str", description = "String to echo", required = true, example = "hello"),
+                    @Parameter(name = "time", description = "Processing time in milliseconds", example = "1000"),
+                    @Parameter(name = "name", description = "Caller name", example = "tester")
+            }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully returned echo response",
+                    content = @Content(schema = @Schema(implementation = LiveResponse.class))),
+    })
     public LiveResponse echo(@PathVariable String str,
                              @RequestParam(required = false) Integer time,
                              @RequestParam(required = false, defaultValue = "tester") String name,
@@ -76,6 +97,17 @@ public class EchoController {
     }
 
     @RequestMapping(value = "/status/{code}", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
+    @Operation(
+            summary = "Status Code Test",
+            description = "Returns response with specified HTTP status code for testing different HTTP status code handling",
+            parameters = {
+                    @Parameter(name = "code", description = "HTTP status code", required = true, example = "200")
+            }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully returned specified status code",
+                    content = @Content(schema = @Schema(implementation = LiveResponse.class))),
+    })
     public LiveResponse status(@PathVariable int code, HttpServletRequest request, HttpServletResponse response) {
         response.setStatus(code);
         LiveResponse lr = new LiveResponse(code, null, code);
@@ -87,6 +119,17 @@ public class EchoController {
     }
 
     @RequestMapping(value = "/sleep/{millis}", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
+    @Operation(
+            summary = "Sleep Test",
+            description = "Simulates delay processing for specified time, used for testing timeout and performance",
+            parameters = {
+                    @Parameter(name = "millis", description = "Delay time in milliseconds", required = true, example = "1000")
+            }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully completed delay processing",
+                    content = @Content(schema = @Schema(implementation = LiveResponse.class))),
+    })
     public LiveResponse sleep(@PathVariable int millis, HttpServletRequest request, HttpServletResponse response) {
         if (millis > 0) {
             CpuBusyUtil.busyCompute(millis);
@@ -97,6 +140,14 @@ public class EchoController {
     }
 
     @RequestMapping(value = "/exception", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
+    @Operation(
+            summary = "Exception Test",
+            description = "Deliberately throws runtime exception for testing exception handling mechanism"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully completed delay processing",
+                    content = @Content(schema = @Schema(implementation = LiveResponse.class))),
+    })
     public LiveResponse exception(HttpServletRequest request, HttpServletResponse response) {
         if (logger.isDebugEnabled()) {
             logger.info("exception at time: {}", System.currentTimeMillis());
@@ -105,6 +156,18 @@ public class EchoController {
     }
 
     @RequestMapping(value = "/state/{code}/sleep/{time}", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
+    @Operation(
+            summary = "Status Code and Sleep Combination Test",
+            description = "Combined test interface for status code and delay time, used for testing complex response scenarios",
+            parameters = {
+                    @Parameter(name = "code", description = "HTTP status code", required = true, example = "200"),
+                    @Parameter(name = "time", description = "Processing time in milliseconds", required = true, example = "1000")
+            }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully processed",
+                    content = @Content(schema = @Schema(implementation = String.class))),
+    })
     public String state(@PathVariable int code, @PathVariable int time, HttpServletRequest request, HttpServletResponse response) throws InterruptedException {
         if (logger.isDebugEnabled()) {
             logger.info("state code: {}, sleep time: {}, date: {}", code, time, System.currentTimeMillis());
