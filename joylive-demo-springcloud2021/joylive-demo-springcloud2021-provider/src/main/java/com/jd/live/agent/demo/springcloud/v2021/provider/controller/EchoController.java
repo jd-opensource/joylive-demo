@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
@@ -110,7 +112,9 @@ public class EchoController {
     })
     public LiveResponse status(@PathVariable int code, HttpServletRequest request, HttpServletResponse response) {
         response.setStatus(code);
-        LiveResponse lr = new LiveResponse(code, null, code);
+        Map data = new HashMap();
+        data.put("code", code);
+        LiveResponse lr = new LiveResponse(code, null, data);
         configure(request, lr);
         if (logger.isDebugEnabled()) {
             logger.info("status code: {}, time: {}", code, System.currentTimeMillis());
