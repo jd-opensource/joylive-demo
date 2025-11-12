@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -39,7 +40,9 @@ public class GlobalExceptionHandler {
     public Mono<LiveResponse> handleException(Exception e, ServerWebExchange exchange) {
         return Mono.fromSupplier(() -> {
             HttpHeaders headers = exchange.getRequest().getHeaders();
-            LiveResponse response = new LiveResponse(500, "Internal Server Error: " + e.getMessage());
+            HttpStatus status = e instanceof ResponseStatusException ? ((ResponseStatusException) e).getStatus() : null;
+            int code = status != null ? status.value() : HttpStatus.INTERNAL_SERVER_ERROR.value();
+            LiveResponse response = new LiveResponse(code, "Internal Server Error: " + e.getMessage());
             response.addFirst(new LiveTrace(applicationName, LiveLocation.build(),
                     LiveTransmission.build("header", headers::getFirst)));
             return response;

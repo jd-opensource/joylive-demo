@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,7 +37,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
     public LiveResponse handleException(Exception e, HttpServletRequest request) {
-        LiveResponse response = new LiveResponse(500, "Internal Server Error: " + e.getMessage());
+        HttpStatus status = e instanceof ResponseStatusException ? ((ResponseStatusException) e).getStatus() : null;
+        int code = status != null ? status.value() : HttpStatus.INTERNAL_SERVER_ERROR.value();
+        LiveResponse response = new LiveResponse(code, "Internal Server Error: " + e.getMessage());
         response.addFirst(new LiveTrace(applicationName, LiveLocation.build(),
                 LiveTransmission.build("header", request::getHeader)));
         return response;
