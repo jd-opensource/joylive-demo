@@ -23,7 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.Resource;
 
 @Service
-public class RestTempalteDiscoveryService implements HelloService {
+public class RestTemplateDiscoveryService implements HelloService {
 
     @Resource
     private RestTemplate restTemplate;

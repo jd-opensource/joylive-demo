@@ -21,7 +21,7 @@ import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
 import com.jd.live.agent.demo.springboot.v2021.consumer.service.FeignDiscoveryService;
 import com.jd.live.agent.demo.springboot.v2021.consumer.service.WebClientDiscoveryService;
-import com.jd.live.agent.demo.springboot.v2021.consumer.service.RestTempalteDiscoveryService;
+import com.jd.live.agent.demo.springboot.v2021.consumer.service.RestTemplateDiscoveryService;
 import com.jd.live.agent.demo.util.CpuBusyUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +41,7 @@ public class EchoController {
     private double cpuPercent;
 
     @Resource
-    private RestTempalteDiscoveryService restTempalteDiscoveryService;
+    private RestTemplateDiscoveryService restTemplateDiscoveryService;
 
     @Resource
     private FeignDiscoveryService feignDiscoveryService;
@@ -54,7 +54,7 @@ public class EchoController {
 
     @GetMapping({"/echo-rest/{str}", "/echo/{str}"})
     public LiveResponse echoRest(@PathVariable String str, HttpServletRequest request) {
-        LiveResponse response = restTempalteDiscoveryService.echo(str);
+        LiveResponse response = restTemplateDiscoveryService.echo(str);
         addTrace(request, response);
         return response;
     }
@@ -82,7 +82,7 @@ public class EchoController {
 
     @GetMapping({"/status-rest/{code}"})
     public LiveResponse statusRest(@PathVariable int code, HttpServletRequest request) {
-        LiveResponse response = restTempalteDiscoveryService.status(code);
+        LiveResponse response = restTemplateDiscoveryService.status(code);
         addTrace(request, response);
         return response;
     }
@@ -96,7 +96,7 @@ public class EchoController {
 
     @GetMapping({"/exception"})
     public LiveResponse exception(HttpServletRequest request) {
-        LiveResponse response = restTempalteDiscoveryService.exception();
+        LiveResponse response = restTemplateDiscoveryService.exception();
         addTrace(request, response);
         return response;
     }
@@ -118,7 +118,7 @@ public class EchoController {
             CpuBusyUtil.busyCompute(cpuTime);
             time = (int) (time - cpuTime);
         }
-        return restTempalteDiscoveryService.state(code, time);
+        return restTemplateDiscoveryService.state(code, time);
     }
 
     @GetMapping({"/dynamic"})
