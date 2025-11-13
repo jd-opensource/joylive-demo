@@ -23,10 +23,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -43,6 +46,7 @@ public class RouterConfig {
                 .resources("/static/**", new ClassPathResource("static/"))
                 .GET("/echo-func/{str}", request -> echoFunc(request))
                 .GET("/status-func/{code}", request -> statusFunc(request))
+                .onError(Throwable.class, this::onException)
                 .build();
     }
 
@@ -53,6 +57,18 @@ public class RouterConfig {
 
     private Mono<ServerResponse> echoFunc(ServerRequest request) {
         return ServerResponse.ok().syncBody(LiveResponse.builder().code(200).data(request.pathVariable("str")).trace(trace(request)).build());
+    }
+
+    private Mono<ServerResponse> onException(Throwable e, ServerRequest request) {
+        HttpStatus status = e instanceof ResponseStatusException ? ((ResponseStatusException) e).getStatus() : null;
+        int code = status != null ? status.value() : HttpStatus.INTERNAL_SERVER_ERROR.value();
+
+        HttpHeaders headers = request.headers().asHttpHeaders();
+        LiveResponse response = new LiveResponse(code, "Internal Server Error: " + e.getMessage());
+        response.addFirst(new LiveTrace(applicationName, LiveLocation.build(),
+                LiveTransmission.build("header", headers::getFirst)));
+
+        return ServerResponse.ok().syncBody(response);
     }
 
     private LiveTrace trace(ServerRequest request) {
