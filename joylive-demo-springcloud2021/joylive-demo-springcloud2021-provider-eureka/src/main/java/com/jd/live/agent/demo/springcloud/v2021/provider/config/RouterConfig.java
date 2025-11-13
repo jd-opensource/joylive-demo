@@ -22,6 +22,9 @@ import com.jd.live.agent.demo.response.LiveTransmission;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.RouterFunctions;
 import org.springframework.web.servlet.function.ServerRequest;
@@ -38,6 +41,8 @@ public class RouterConfig {
         return RouterFunctions.route()
                 .GET("/echo-func/{str}", request -> echoFunc(request))
                 .GET("/status-func/{code}", request -> statusFunc(request))
+                .resources("/static/**", new ClassPathResource("static/"))
+                .onError(Throwable.class, this::onException)
                 .build();
     }
 
@@ -48,6 +53,18 @@ public class RouterConfig {
 
     private ServerResponse echoFunc(ServerRequest request) {
         return ServerResponse.ok().body(LiveResponse.builder().code(200).data(request.pathVariable("str")).trace(trace(request)).build());
+    }
+
+    private ServerResponse onException(Throwable e, ServerRequest request) {
+        HttpStatus status = e instanceof ResponseStatusException ? ((ResponseStatusException) e).getStatus() : null;
+        int code = status != null ? status.value() : HttpStatus.INTERNAL_SERVER_ERROR.value();
+
+        ServerRequest.Headers headers = request.headers();
+        LiveResponse response = new LiveResponse(code, "Internal Server Error: " + e.getMessage());
+        response.addFirst(new LiveTrace(applicationName, LiveLocation.build(),
+                LiveTransmission.build("header", headers::firstHeader)));
+
+        return ServerResponse.ok().body(response);
     }
 
     private LiveTrace trace(ServerRequest request) {
