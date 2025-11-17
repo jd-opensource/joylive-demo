@@ -27,7 +27,7 @@ import java.util.List;
 @Data
 @Builder
 @ToString
-public class LiveResponse implements Serializable {
+public class LiveResponse<T> implements Serializable {
 
     public static final int SUCCESS = 200;
 
@@ -41,7 +41,7 @@ public class LiveResponse implements Serializable {
 
     private String message;
 
-    private Object data;
+    private T data;
 
     @Singular
     private List<LiveTrace> traces;
@@ -49,7 +49,7 @@ public class LiveResponse implements Serializable {
     public LiveResponse() {
     }
 
-    public LiveResponse(Object data) {
+    public LiveResponse(T data) {
         this.code = SUCCESS;
         this.data = data;
     }
@@ -59,13 +59,13 @@ public class LiveResponse implements Serializable {
         this.message = message;
     }
 
-    public LiveResponse(int code, String message, Object data) {
+    public LiveResponse(int code, String message, T data) {
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
-    public LiveResponse(int code, String message, Object data, List<LiveTrace> traces) {
+    public LiveResponse(int code, String message, T data, List<LiveTrace> traces) {
         this.code = code;
         this.message = message;
         this.data = data;

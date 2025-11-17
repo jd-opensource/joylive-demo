@@ -74,7 +74,7 @@ public class EchoController {
             @ApiResponse(responseCode = "200", description = "Successfully returned echo response",
                     content = @Content(schema = @Schema(implementation = LiveResponse.class))),
     })
-    public LiveResponse echo(@PathVariable String str,
+    public LiveResponse<String> echo(@PathVariable String str,
                              @RequestParam(required = false) Integer time,
                              @RequestParam(required = false, defaultValue = "tester") String name,
                              HttpServletRequest request) {
@@ -90,7 +90,7 @@ public class EchoController {
         if (suffix != null && !suffix.isEmpty()) {
             value = value + "-" + suffix;
         }
-        LiveResponse response = new LiveResponse(value);
+        LiveResponse<String> response = new LiveResponse(value);
         configure(request, response);
         if (logger.isDebugEnabled()) {
             logger.info("echo str: {}, time: {}", str, System.currentTimeMillis());
@@ -110,11 +110,11 @@ public class EchoController {
             @ApiResponse(responseCode = "200", description = "Successfully returned specified status code",
                     content = @Content(schema = @Schema(implementation = LiveResponse.class))),
     })
-    public LiveResponse status(@PathVariable int code, HttpServletRequest request, HttpServletResponse response) {
+    public LiveResponse<Object> status(@PathVariable int code, HttpServletRequest request, HttpServletResponse response) {
         response.setStatus(code);
         Map data = new HashMap();
         data.put("code", code);
-        LiveResponse lr = new LiveResponse(code, null, data);
+        LiveResponse<Object> lr = new LiveResponse<>(code, null, data);
         configure(request, lr);
         if (logger.isDebugEnabled()) {
             logger.info("status code: {}, time: {}", code, System.currentTimeMillis());
@@ -134,11 +134,11 @@ public class EchoController {
             @ApiResponse(responseCode = "200", description = "Successfully completed delay processing",
                     content = @Content(schema = @Schema(implementation = LiveResponse.class))),
     })
-    public LiveResponse sleep(@PathVariable int millis, HttpServletRequest request, HttpServletResponse response) {
+    public LiveResponse<Integer> sleep(@PathVariable int millis, HttpServletRequest request, HttpServletResponse response) {
         if (millis > 0) {
             CpuBusyUtil.busyCompute(millis);
         }
-        LiveResponse lr = new LiveResponse(200, null, millis);
+        LiveResponse<Integer> lr = new LiveResponse<>(200, null, millis);
         configure(request, lr);
         return lr;
     }

@@ -25,6 +25,7 @@ import com.netflix.zuul.context.RequestContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -62,7 +63,8 @@ public class ZuulErrorFilter extends ZuulFilter {
         Throwable throwable = ctx.getThrowable();
         if (throwable != null) {
             try {
-                LiveResponse liveResponse = new LiveResponse(LiveResponse.ERROR, throwable.getMessage());
+                int code = throwable instanceof ResponseStatusException ? ((ResponseStatusException) throwable).getStatus().value() : LiveResponse.ERROR;
+                LiveResponse liveResponse = new LiveResponse(code, throwable.getMessage());
                 addTrace(liveResponse, ctx.getResponse());
                 String responseBody = objectMapper.writeValueAsString(liveResponse);
                 ctx.remove("throwable");

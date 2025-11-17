@@ -35,6 +35,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -68,7 +69,8 @@ public class LiveGatewayFilter implements GlobalFilter, Ordered {
             if (response.isCommitted()) {
                 return Mono.error(throwable);
             }
-            LiveResponse liveResponse = new LiveResponse(LiveResponse.ERROR, throwable.getMessage());
+            int code = throwable instanceof ResponseStatusException ? ((ResponseStatusException) throwable).getStatus().value() : LiveResponse.ERROR;
+            LiveResponse liveResponse = new LiveResponse(code, throwable.getMessage());
             addTrace(liveResponse, request.getHeaders());
             try {
                 byte[] data = objectMapper.writeValueAsBytes(liveResponse);
