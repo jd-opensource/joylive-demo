@@ -41,6 +41,5 @@ public class ConsumerConfig {
         return Feign.builder()
                 .decoder(new JacksonDecoder())
                 .target(FeignDiscoveryService.class, "http://service-provider");
-
     }
 }
