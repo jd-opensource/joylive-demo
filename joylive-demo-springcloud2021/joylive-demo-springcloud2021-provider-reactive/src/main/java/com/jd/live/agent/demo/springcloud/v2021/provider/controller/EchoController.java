@@ -19,12 +19,16 @@ import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -38,6 +42,19 @@ public class EchoController {
 
     private final CountDownLatch latch = new CountDownLatch(1);
 
+    @Operation(
+            summary = "Echo method",
+            description = "Receives string parameter and returns echo response, supports custom processing time and name parameters",
+            parameters = {
+                    @Parameter(name = "str", description = "String to echo", required = true, example = "hello"),
+                    @Parameter(name = "time", description = "Processing time in milliseconds", example = "1000"),
+                    @Parameter(name = "name", description = "Caller name", example = "tester")
+            }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully returned echo response",
+                    content = @Content(schema = @Schema(implementation = LiveResponse.class))),
+    })
     @GetMapping("/echo/{str}")
     public Mono<LiveResponse> echo(@PathVariable String str, ServerWebExchange exchange) {
         return Mono.fromSupplier(() -> {
@@ -47,6 +64,18 @@ public class EchoController {
         });
     }
 
+    @RequestMapping(value = "/status/{code}", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
+    @Operation(
+            summary = "Status Code Test",
+            description = "Returns response with specified HTTP status code for testing different HTTP status code handling",
+            parameters = {
+                    @Parameter(name = "code", description = "HTTP status code", required = true, example = "200")
+            }
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully returned specified status code",
+                    content = @Content(schema = @Schema(implementation = LiveResponse.class))),
+    })
     @GetMapping("/status/{code}")
     public Mono<LiveResponse> status(@PathVariable int code, ServerWebExchange exchange) {
         return Mono.defer(() -> {
@@ -62,6 +91,15 @@ public class EchoController {
         });
     }
 
+    @RequestMapping(value = "/exception", method = {RequestMethod.GET, RequestMethod.PUT, RequestMethod.POST})
+    @Operation(
+            summary = "Exception Test",
+            description = "Deliberately throws runtime exception for testing exception handling mechanism"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully completed delay processing",
+                    content = @Content(schema = @Schema(implementation = LiveResponse.class))),
+    })
     @GetMapping("/exception")
     public Mono<LiveResponse> exception(ServerWebExchange exchange) {
         return Mono.error(new RuntimeException("exception"));
