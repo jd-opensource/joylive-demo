@@ -17,6 +17,7 @@ package com.jd.live.agent.demo.springboot.v2021.consumer.service;
 
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.service.HelloService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,21 +29,24 @@ public class RestTemplateDiscoveryService implements HelloService {
     @Resource
     private RestTemplate restTemplate;
 
+    @Value("${dynamic.provider:service-provider}")
+    private String providerServiceName;
+
     @Override
     public LiveResponse echo(String str) {
-        return restTemplate.getForObject("http://service-provider/echo/" + str, LiveResponse.class);
+        return restTemplate.getForObject("http://" + providerServiceName + "/echo/" + str, LiveResponse.class);
     }
 
     @Override
     public LiveResponse status(int code) {
-        return restTemplate.getForObject("http://service-provider/status/" + code, LiveResponse.class);
+        return restTemplate.getForObject("http://" + providerServiceName + "/status/" + code, LiveResponse.class);
     }
 
     public String state(int code, int time) {
-        return restTemplate.getForObject("http://service-provider/state/" + code + "/sleep/" + time, String.class);
+        return restTemplate.getForObject("http://" + providerServiceName + "/state/" + code + "/sleep/" + time, String.class);
     }
 
     public LiveResponse exception() {
-        return restTemplate.getForObject("http://service-provider/exception", LiveResponse.class);
+        return restTemplate.getForObject("http://" + providerServiceName + "/exception", LiveResponse.class);
     }
 }
