@@ -13,10 +13,9 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring-cloud.version>2025.1.0-M3</spring-cloud.version>
-        <!-- 4.0.0-M3 is not compatible with spring-cloud 2025.1.0-M2 -->
-        <spring-boot.version>4.0.0-M3</spring-boot.version>
-        <spring-cloud-alibaba.version>2025.0.0.0-preview</spring-cloud-alibaba.version>
+        <spring-cloud.version>2025.1.0</spring-cloud.version>
+        <spring-boot.version>4.0.0</spring-boot.version>
+        <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
     </properties>
 
     <modules>
