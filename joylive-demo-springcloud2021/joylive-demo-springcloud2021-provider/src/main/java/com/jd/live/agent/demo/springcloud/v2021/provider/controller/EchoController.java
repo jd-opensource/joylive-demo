@@ -49,9 +49,6 @@ public class EchoController {
 
     private final static Logger logger = LoggerFactory.getLogger(EchoController.class);
 
-    @Value("${echo.suffix}")
-    private String echoSuffix;
-
     @Value("${mock.cpuPercent:0.2}")
     private double cpuPercent;
 
