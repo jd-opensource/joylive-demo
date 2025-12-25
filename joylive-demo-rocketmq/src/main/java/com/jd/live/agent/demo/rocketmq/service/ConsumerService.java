@@ -17,6 +17,7 @@ package com.jd.live.agent.demo.rocketmq.service;
 
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.service.HelloService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,17 +26,20 @@ public class ConsumerService implements HelloService {
 
     private final RestTemplate restTemplate;
 
-    public ConsumerService(RestTemplate restTemplate) {
+    private final String serviceName;
+
+    public ConsumerService(RestTemplate restTemplate, @Value("${service.name}") String serviceName) {
         this.restTemplate = restTemplate;
+        this.serviceName = serviceName;
     }
 
     @Override
     public LiveResponse echo(String str) {
-        return restTemplate.getForObject("http://service-provider/echo/" + str, LiveResponse.class);
+        return restTemplate.getForObject("http://" + serviceName + "/echo/" + str, LiveResponse.class);
     }
 
     @Override
     public LiveResponse status(int code) {
-        return restTemplate.getForObject("http://service-provider/status/" + code, LiveResponse.class);
+        return new LiveResponse(code);
     }
 }

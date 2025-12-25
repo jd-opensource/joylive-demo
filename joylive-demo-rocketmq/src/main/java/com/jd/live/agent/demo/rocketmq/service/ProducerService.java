@@ -16,9 +16,9 @@
 package com.jd.live.agent.demo.rocketmq.service;
 
 import com.jd.live.agent.demo.response.LiveResponse;
-import com.jd.live.agent.demo.rocketmq.config.MqConfig;
 import com.jd.live.agent.demo.service.HelloService;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,16 +29,16 @@ public class ProducerService implements HelloService {
     @Resource
     private RocketMQTemplate rocketMQTemplate;
 
-    @Resource
-    private MqConfig mqConfig;
+    @Value("${rocketmq.topic}")
+    private String topic;
 
     @Override
     public LiveResponse echo(String str) {
-        return rocketMQTemplate.sendAndReceive(mqConfig.getTopic(), str, LiveResponse.class, 10000);
+        return rocketMQTemplate.sendAndReceive(topic, str, LiveResponse.class, 10000);
     }
 
     @Override
     public LiveResponse status(int code) {
-        return rocketMQTemplate.sendAndReceive(mqConfig.getTopic(), code, LiveResponse.class, 10000);
+        return new LiveResponse(code);
     }
 }

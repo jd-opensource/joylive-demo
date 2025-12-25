@@ -23,8 +23,6 @@ import com.jd.live.agent.demo.rocketmq.service.ConsumerService;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQReplyListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -34,8 +32,6 @@ import java.util.Map;
 @Component
 @RocketMQMessageListener(topic = "${rocketmq.topic}", consumerGroup = "${rocketmq.consumer.group}")
 public class RocketmqConsumer implements RocketMQReplyListener<MessageExt, LiveResponse> {
-
-    private static final Logger logger = LoggerFactory.getLogger(RocketmqConsumer.class);
 
     private final ConsumerService consumerService;
 
@@ -51,7 +47,7 @@ public class RocketmqConsumer implements RocketMQReplyListener<MessageExt, LiveR
         Map<String, String> properties = message.getProperties();
         try {
             LiveResponse response = consumerService.echo(new String(message.getBody(), StandardCharsets.UTF_8));
-            response.addFirst(new LiveTrace(applicationName, LiveLocation.build(),
+            response.addFirst(new LiveTrace(applicationName + "-consumer", LiveLocation.build(),
                     LiveTransmission.build("properties", properties::get)));
             return response;
         } catch (Throwable e) {
