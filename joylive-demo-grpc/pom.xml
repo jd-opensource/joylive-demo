@@ -12,10 +12,10 @@
 
     <properties>
         <grpc.version>1.68.1</grpc.version>
-        <spring-cloud.version>2021.0.9</spring-cloud.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
-        <spring-cloud-nacos.version>2021.0.6.0</spring-cloud-nacos.version>
-        <grpc-spring-boot-starter.version>2.15.0.RELEASE</grpc-spring-boot-starter.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
+        <spring-boot.version>3.2.4</spring-boot.version>
+        <spring-cloud-nacos.version>2022.0.0.0</spring-cloud-nacos.version>
+        <grpc-spring.version>3.1.0.RELEASE</grpc-spring.version>
     </properties>
 
     <modules>
@@ -66,14 +66,14 @@
 
             <dependency>
                 <groupId>net.devh</groupId>
-                <artifactId>grpc-server-spring-boot-starter</artifactId>
-                <version>${grpc-spring-boot-starter.version}</version>
+                <artifactId>grpc-client-spring-boot-starter</artifactId>
+                <version>${grpc-spring.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>net.devh</groupId>
-                <artifactId>grpc-client-spring-boot-starter</artifactId>
-                <version>${grpc-spring-boot-starter.version}</version>
+                <artifactId>grpc-server-spring-boot-starter</artifactId>
+                <version>${grpc-spring.version}</version>
             </dependency>
         </dependencies>
 
