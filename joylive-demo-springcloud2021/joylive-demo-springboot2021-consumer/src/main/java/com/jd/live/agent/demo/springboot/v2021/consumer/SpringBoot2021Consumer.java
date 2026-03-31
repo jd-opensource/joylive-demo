@@ -17,7 +17,9 @@ package com.jd.live.agent.demo.springboot.v2021.consumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableFeignClients
 @SpringBootApplication
 public class SpringBoot2021Consumer {
 

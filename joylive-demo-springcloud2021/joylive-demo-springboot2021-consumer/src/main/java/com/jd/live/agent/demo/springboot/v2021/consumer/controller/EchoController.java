@@ -19,10 +19,12 @@ import com.jd.live.agent.demo.response.LiveLocation;
 import com.jd.live.agent.demo.response.LiveResponse;
 import com.jd.live.agent.demo.response.LiveTrace;
 import com.jd.live.agent.demo.response.LiveTransmission;
+import com.jd.live.agent.demo.springboot.v2021.consumer.service.FeignCloudDiscoveryService;
 import com.jd.live.agent.demo.springboot.v2021.consumer.service.FeignDiscoveryService;
 import com.jd.live.agent.demo.springboot.v2021.consumer.service.WebClientDiscoveryService;
 import com.jd.live.agent.demo.springboot.v2021.consumer.service.RestTemplateDiscoveryService;
 import com.jd.live.agent.demo.util.CpuBusyUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +49,9 @@ public class EchoController {
     private FeignDiscoveryService feignDiscoveryService;
 
     @Resource
+    private FeignCloudDiscoveryService feignCloudDiscoveryService;
+
+    @Resource
     private WebClientDiscoveryService webClientDiscoveryService;
 
     @Value("${dynamic.responseValue:defaultValue}")
@@ -62,6 +67,13 @@ public class EchoController {
     @GetMapping("/echo-feign/{str}")
     public LiveResponse echoFeign(@PathVariable String str, HttpServletRequest request) {
         LiveResponse response = feignDiscoveryService.echo(str);
+        addTrace(request, response);
+        return response;
+    }
+
+    @GetMapping("/echo-cloud-feign/{str}")
+    public LiveResponse echoCloudFeign(@PathVariable String str, HttpServletRequest request) {
+        LiveResponse response = feignCloudDiscoveryService.echo(str);
         addTrace(request, response);
         return response;
     }
